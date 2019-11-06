@@ -30,17 +30,17 @@ int main(int argc, char* argv[])
 {
     if (argc > 2)
     {
-        printf("hallo %s, your age is: %s\n", argv[1],argv[2]);
+        printf("hello %s, your age is: %s\n", argv[1],argv[2]);
         return 0;
     }
     else if(argc > 1)
     {
-        printf("hallo my friend, your age is: %s\n", argv[1]);
+        printf("hello my friend, your age is: %s\n", argv[1]);
         return 0;
     }
     else
     {
-        printf("Hallo, Im sorry your age was not defined\n");
+        printf("Hello, Im sorry your age was not defined\n");
     }
     return 0;
 }
