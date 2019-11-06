@@ -40,6 +40,7 @@ App can read file, write file and write you next time when bus will be stop on y
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct cas_t
 {
@@ -122,7 +123,7 @@ void print_spoje(char* stop,struct cas_t cas, bus_t bus)
     int delay;
 
     for(int i = 0; i < bus.stopc;i++)
-        if(bus.stop[i] == stop)
+        if((strcmp(bus.stop[i],stop) == 0)
         {
             delay = bus.cas_jizdy[i];
             break;
