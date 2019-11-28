@@ -1,6 +1,10 @@
     /************************************************/
-    /*                                              */		
-    /*      1st Project - Working with text         */
+    /*         					    */
+    /*        1st Project - Working with text	    */	
+    /*						    */
+    /*              gitlab.com/sestak               */
+    /*                                              */          
+    /*              github.com/alepir               */
     /*                                              */
     /*          Pavel Sestak (xsesta07)             */
     /*                                              */
@@ -12,7 +16,24 @@
     /*                                              */
     /*      VUT Faculty of Information Technology   */
     /*                                              */
-    /************************************************/  
+    /************************************************/ 
+    
+/*
+Need file to STDIO
+
+File example:
+<Contact name>
+<Contact Numb>
+Petr Dvorak
+603123456
+Jana Novotna
+777987654
+Bedrich Smetana ml.
+541141120
+
+Launch example: ./proj1 125 <contactlist.txt
+
+*/
 
 //Library for basic input and output
 #include <stdio.h>
