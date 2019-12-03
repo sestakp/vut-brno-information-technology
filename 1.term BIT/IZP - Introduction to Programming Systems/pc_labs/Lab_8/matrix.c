@@ -94,22 +94,22 @@ void MatrixMultiplayer(matrix_t* source, matrix_t* destination)
     }
     else
     {
-    float sum = 0;
-    for(unsigned i = 0; i < source->cols;i++)
-    {
-        for (unsigned j = 0; j < destination->rows;j++)
-        {
-            for(unsigned k = 0; k < destination->rows;k++)
-            {
-		printf("Sum of item  on pos %d %d = %lf, on pos %d %d = %lf \n",j,k,get_item(j,k,source),k,j,get_item(k,j,destination));
-		sum += get_item(j,k,source) * get_item(k,j,destination);	
-            }
-		printf("next cell \n");
-	    printf("sum %lf setting on %d %d\n",sum,i,j);
-	    set_item(sum,i,j,source);
-	    sum = 0;
-        }
-    }
+    	float sum = 0;
+    	for(unsigned i = 0; i < source->cols;i++)
+    	{
+        	for (unsigned j = 0; j < destination->rows;j++)
+        	{
+            		for(unsigned k = 0; k < destination->rows;k++)
+            		{
+				printf("Sum of item  on pos %d %d = %lf, on pos %d %d = %lf \n",j,k,get_item(j,k,source),k,j,get_item(k,j,destination));
+				sum += get_item(j,k,source) * get_item(k,j,destination);	
+            		}
+			printf("next cell \n");
+	    		printf("sum %lf setting on %d %d\n",sum,i,j);
+	    		set_item(sum,i,j,source);
+	    		sum = 0;
+        	}
+    	}
     }
 
     if(source->rows != destination->cols)
