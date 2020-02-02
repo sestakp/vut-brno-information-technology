@@ -1,0 +1,661 @@
+\documentclass[12pt,a4paper]{article} %deklarace typu dokumentu
+\usepackage[utf8]{inputenc} %kódování
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[unicode]{hyperref}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{caption,lipsum}
+%rovnice k levému okraji
+\usepackage{amsmath}
+\graphicspath{ {./images/} }
+
+\title{Semestrální projekt - Elektronika pro informační technologie}
+\author{Pavel Šesták [xsesta07]}
+\date{3.10.2019}                                         
+                                              
+\begin{document}
+    \begin{titlepage}
+		\begin{center}
+			\textsc{\LARGE Vysoké Učení Technické v Brně} \\[0.5cm]
+			{\LARGE Fakulta informačních technologií}
+
+			\begin{figure}
+				\center\includegraphics[scale=0.3]{images/logo.png}
+			\end{figure}
+
+			\vspace{3cm}
+
+			\textsc{\LARGE Elektronika pro informační technologie} \\[0.5cm]
+			\textsc{\LARGE 2019/2020} \\[3.5cm]
+
+			\textbf{{\LARGE Semestrální projekt}}
+		\end{center}
+		\vfill
+		\begin{flushleft} 
+			\large
+			Pavel Šesták (xsesta07)
+			\hfill
+			Brno, \today
+		\end{flushleft}
+	\end{titlepage}
+
+
+\begin{center}
+	\tableofcontents %obsah generator
+	\clearpage %konec stranky
+\end{center}
+	\section*{Zadání projektu} % nečíslovaný nadpis, není uveden v obsahu
+	Zadaní semestrálního projektu IEL 2019/20
+	Vypracujte protokol, který bude obsahovat postup výpočtu, výsledky, Vaše
+	jméno a login. V závěru protokolu uveďte přehlednou tabulku s čísly úloh,
+	Vašimi variantami zadání a výsledky (za chybějící tabulku bude BODOVÁ
+	SRÁŽKA!!!).
+	Tento protokol se odevzdává ve formátu PDF a zdrojový soubor v TEXu (zabalený v zipu, pojmenovaný podle loginu, např. xnovak00.zip). Odevzdání
+	zdrojového programu v TEXu není povinné, ale bude garantovi předmětu
+	sloužit při případném rozhodování o korekci výsledného hodnocení.
+	Veškeré výpočty provádějte v obecném tvaru a číselné hodnoty dosad’te až
+	do výsledných vzorců. Z vypracovaného projektu musí být zřejmý obecný
+	postup výpočtu. Výsledky uvádějte na 4 platná desetinná místa. Dbejte na
+	správný převod jednotek úhlů (radiány na stupně - pozor na kvadrant u komplexního čísla!!!).
+	Za protokol je možné získat max. 12 bodů v závislosti na věcné správnosti postupu výpočtu a estetických kvalitách protokolu (9 bodů za správné řešení a 3
+	body za zpracování). Pro získání zápočtu v předmětu IEL je zapotřebí získat
+	ze semestrálního projektu MINIMALNĚ 3 BODY!!! Protokol odevzdejte do 21. 12. 2019 prostřednictvím IS FIT (maximální velikost souboru je nastavena na 2MB). Projekty odevzdané po tomto termínu nebudou hodnoceny.
+	Důležité upozornění: Projekty do předmětu IEL má plně v kompetenci pouze
+	a jedině Dr. Václav Sátek (satek@fit.vut.cz). Neobtěžujte svými dotazy na 
+	projekt jiné vyučující.
+	\clearpage
+
+    	\section{První příklad}
+        		\subsection*{Zadání}
+		Stanovte napětí U\textsubscript{R5} a proud I\textsubscript{R5}. 
+		\\Použijte metodu postupného zjednodušování obvodu.
+		\\\textbf{Hodnoty pro variantu F}
+		\\ U\textsubscript{1} = 125 V
+		\\U\textsubscript{2} = 65 V
+		\\R\textsubscript{1} = 510 \si{\ohm}
+		\\R\textsubscript{2} = 500 \si{\ohm}
+		\\R\textsubscript{3} = 550 \si{\ohm}
+		\\R\textsubscript{4} = 250 \si{\ohm}
+		\\R\textsubscript{5} = 300 \si{\ohm}
+		\\R\textsubscript{6} = 800 \si{\ohm}
+		\\R\textsubscript{7} = 330 \si{\ohm}
+		\\R\textsubscript{8} = 250 \si{\ohm}
+		\bigskip
+		
+		\textbf{Schéma}
+		\medskip
+
+		\centerline{
+		\includegraphics[scale=0.4]{priklad1ph1}
+		}
+		\clearpage
+		\textbf{Řešení pomocí zjednodušování obvodu}
+		\\1. Zavedeme z důvodu převedení trojúhelníkového zapojení na hvězdu odpory R\textsubscript{A}, R\textsubscript{B} a R\textsubscript{C}, které vychází z odporů R\textsubscript{1}, R\textsubscript{2} a R\textsubscript{3}. Zároveň můžeme zavést R\textsubscript{78}, který vypočítáme pomocí vzorce pro celkový odpor u rezistorů s paralerním zapojením.
+		\medskip
+		
+	    \centerline{
+		\includegraphics[scale=0.4]{priklad1ph2}
+		}
+		\medskip
+		\(
+		\\R\textsubscript{A} = \frac{R\textsubscript{1}*R\textsubscript{2}}{R\textsubscript{1}+R\textsubscript{2}+R\textsubscript{3}}
+	    \)
+	    \medskip
+		\(
+		\\R\textsubscript{B} = \frac{R\textsubscript{1}*R\textsubscript{3}}{R\textsubscript{1}+R\textsubscript{2}+R\textsubscript{3}}
+	    \)
+	    \medskip
+	    \(
+		\\R\textsubscript{C} = \frac{R\textsubscript{2}*R\textsubscript{3}}{R\textsubscript{1}+R\textsubscript{2}+R\textsubscript{3}}
+	    \)
+	    \medskip
+	    \(
+		\\R\textsubscript{78} = \frac{R\textsubscript{7} * R\textsubscript{8}}{R\textsubscript{7} + R\textsubscript{8}}
+	    \)
+	    \bigskip
+	    \\Po dosazení: 
+	    \(
+		\\R\textsubscript{A} = \frac{510*500}{510+500+550} = 163.4615 \si{\ohm}
+	    \)
+	    \medskip
+		\(
+		\\R\textsubscript{B} = \frac{510*550}{510+500+550} = 179.8077 \si{\ohm}
+	    \)
+	    \medskip
+	    \(
+		\\R\textsubscript{C} = \frac{500*550}{510+500+550} = 176.2821 \si{\ohm}
+	    \)
+	    \medskip
+	    \(
+		\\R\textsubscript{78} = \frac{330 * 250}{330 + 250} = 142.2414 \si{\ohm}
+	    \)
+        \clearpage
+	    2.  Zavedeme R\textsubscript{B4} s ekvivalentním odporem k součtu odporů R\textsubscript{B} a R\textsubscript{4}. Následně zavedeme R\textsubscript{C6} s ekvivalentním odporem k součtu odporů R\textsubscript{C} a R\textsubscript{6}.
+	    \medskip
+	    	    
+	    \centerline{
+		\includegraphics[scale=0.4]{priklad1ph3}
+		}
+	    \medskip
+	    
+	    R\textsubscript{B4} = R\textsubscript{B} + R\textsubscript{4} 
+	    \\R\textsubscript{C6} = R\textsubscript{C} + R\textsubscript{6}
+	    \bigskip
+	    
+	    Po dosazení:
+	    
+	    R\textsubscript{B4} = 179.8077 + 250 = 429.8077 \si{\ohm}
+	    \\R\textsubscript{C6} = 176.2821 + 800 = 976.2821 \si{\ohm}
+	    \bigskip
+	    
+	    \clearpage
+	    3. Zavedeme R\textsubscript{BC456}, který vypočítáme pomocí vzorce pro výpočet celkového odporu v paralerním zapojení.
+	    \medskip
+	    	    
+	    \centerline{
+		\includegraphics[scale=0.4]{priklad1ph4}
+		}
+	    
+	    \medskip
+	    R\textsubscript{B45} = R\textsubscript{B4} + R\textsubscript{5}
+	    \(
+		\\R\textsubscript{BC456} = \frac{R\textsubscript{B45} * R\textsubscript{C6}}{R\textsubscript{B45} + R\textsubscript{C6}}
+	    \)
+	    \bigskip
+	    \\po dosazení:
+	    \\R\textsubscript{B45} = 429.8077 + 300 = 729.8077
+	    \(
+		\\R\textsubscript{BC456} = \frac{729.8077 * 976.2821}{729.8077 + 976.2821} =  417.6206\si{\ohm}
+	    \)
+	    \bigskip
+	   \\4. Zavedeme R\textsubscript{ekv}, který bude ekvivalentní k odporu celého obvodu. Následně můžeme zjednodušit zdroje.
+	    \medskip
+	    	    	    
+	    \centerline{
+		\includegraphics[scale=1]{priklad1ph5}
+		}
+	    
+	    \medskip
+	    R\textsubscript{ekv} = R\textsubscript{A} + R\textsubscript{BC456} + R\textsubscript{78}
+	    \\U = U\textsubscript{1} + U\textsubscript{2}
+	    \bigskip
+	    \\po dosazení:
+	    \\U = 125 + 65 = 190 V
+	    \\R\textsubscript{ekv} =  163.4615 + 417.6206 + 142.2414 = 723.3235 \si{\ohm}
+	    \clearpage
+	    5. Z celkového odporu můžeme vyjádřit celkový proud. Podle II. Kirchhoffova zákona se na sériově zapojených odporech dělí napětí a proud je ekvivalentní pro oba odpory.
+	    \medskip
+	    
+	    \(
+		\\I = \frac{U}{R}
+	    \)
+	    \bigskip
+	     \\\textbf{Po dosazení:}
+	    \(
+		\\I = \frac{190}{723.3235} = 0.2627 A
+	    \)
+	    \bigskip
+        
+        6. Výpočet napětí pro R\textsubscript{BC456}
+        
+        U\textsubscript{R\textsubscript{BC456}} = R\textsubscript{BC456} * I
+        \\Po dosazení
+        \\U\textsubscript{R\textsubscript{BC456}} = 417.6206 * 0.2627 = 109.7089 V
+        \bigskip
+        
+        7. Výpočet napětí a proudu pro $R_5$ 
+        \\$\frac{B4}{R5} = \frac{{U_R}_B4}{R_5}$
+        \\$I_{R5} = \frac{U_{R5}}{R_5}$
+        
+        \medskip
+        Po dosazení:
+        \medskip
+        \\$\frac{429.8077}{300} = \frac{U_{RB4}}{R_5}$
+        \medskip    
+        \\$U_{R5} = \frac{109.7089}{429.8077 + 300} = \frac{109.7089}{729.8077} = 45.0977 V $
+        \medskip
+        \\$I_{R5} = \frac{45.0977}{300} =  0.1503257 A$
+        \bigskip
+        
+        Výsledek:
+        \\Výsledné napětí na odporu R\textsubscript{5} je rovno 45.0977 voltu a proud je roven 150.3257 mA.
+        \medskip
+        \\Simulace obvodu: http://tinyurl.com/y33ewdw4
+	\clearpage
+
+	\section{Druhý příklad} % normální číslovaný nadpis
+		\subsection*{Zadání}
+		Stanovte napětí U\textsubscript{R6} a proud I\textsubscript{R6}. Použijte metodu Théveninovy věty.
+		
+		\textbf{Hodnoty pro variantu D}
+		\(
+		\\U = 150 \text{V}
+	    \\R_1 = 200 \Omega 
+	    \\R_2 = 200 \Omega
+	    \\R_3 = 660 \Omega 
+	    \\R_4 = 200 \Omega 
+	    \\R_5 = 550 \Omega
+	    \\R_6 = 400 \Omega
+	    \\I_B = x A
+	    \)
+		\bigskip
+		
+		\textbf{Schéma}
+		\medskip
+
+		\centerline{
+		\includegraphics[scale=0.3]{images/priklad2ph1.png}
+		}
+		\clearpage
+		\textbf{Řešení pomocí Theveninova theorému}
+		\\1. Odpojíme z obvodu R\textsubscript{6} a obvod zkratujeme, tím získáme R\textsubscript{i}
+		
+		\centerline{
+		\includegraphics[scale=0.3]{images/priklad2ph2.png}
+		}
+		
+		\medskip
+		\(
+		\\R_i \equiv R_{AB} = \frac{ (\frac{(R_1 + R_2)R_3}{(R_1 + R_2)+R_3} + R_4)R_5}{(\frac{(R_1 + R_2)R_3}{(R_1 + R_2)+R_3} + R_4)+R_5} = \frac{ (\frac{(200 + 200)660}{(200 + 200)+660} + 200)550}{(\frac{(200 + 200)660}{(200 + 200)+660} + 200)+550} =\frac{261800}{1059} \doteq 247.2144 \Omega
+	    \)
+	    
+	    \bigskip
+	    \bigskip
+	    \bigskip
+		\bigskip
+
+		2. Zapojíme obvod naprázdno a vypočítáme napětí mezi svorkami AB, na to budeme potřebovat vypočíst I\textsubscript{B}. Budeme řešit soustavu rovnic sarussovým pravidlem a následně získáme I\textsubscript{B} pomocí Cramerova pravidla.
+		
+		
+		\centerline{
+		\includegraphics[scale=0.3]{images/priklad2ph3.png}
+		}
+		\medskip
+	\begin{gather*}
+		\begin{bmatrix}
+			R_1 + R_2 + R_3	&	-R_3 \\
+			-R_3		&	R_3 + R_4 + R_5
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			I_A \\
+			I_B
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			U \\
+			0
+		\end{bmatrix}
+		\\
+		\begin{bmatrix}
+			1060		&	-660 \\
+			-660	&	1410
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			I_A \\
+			I_B
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			150 \\
+			0
+		\end{bmatrix}
+	\end{gather*}
+	\medskip
+	Nyní vypočítáme determinanty \textbar D\textbar a \textbar D\textsubscript{I\textsubscript{B}}\textbar
+     \begin{gather*}
+		|D| = 
+		\begin{vmatrix}
+			1060		&	-660 \\
+			-660	&	1410
+		\end{vmatrix}
+		= 1.059.000 \\
+		|D\textsubscript{I\textsubscript{B}}| = 
+		\begin{vmatrix}
+			1060		&	150 \\
+			-660	&	0
+		\end{vmatrix}
+		= 99.000
+	\end{gather*}  
+	\clearpage
+	Nyní můžeme vypočítat I\textsubscript{B}
+			\(
+		\\I_B = \frac{|D_{I_B}|}{|D|} = \frac{99.000}{1.059.000} = \frac{33}{353} \doteq 0.0935 A
+	    \medskip
+	    \\U_i \equiv U_{R5} = I_B R_5 = \frac{33}{353}550 = \frac{18150}{353} \doteq 51.4164 V
+	    \)
+	    \bigskip
+	    \bigskip
+	    \bigskip
+	\\Nakonec dopočítáme I\textsubscript{R6} a U\textsubscript{R6} pomocí U\textsubscript{i}
+    \medskip
+        \(
+		\\I_{R6} = \frac{U_i}{R_i + R_6} = \frac{\frac{18150}{353}}{\frac{261800}{1059}+400} = \frac{1089}{13708} \doteq 79.4427 mA
+		\medskip
+		\\U_{R6} = I_{R6} R_6 = \frac{1089}{13708} * 400 = \frac{108900}{3427} \doteq 31.7771 V
+	    \)
+	   \bigskip
+		\\Simulace obvodu: http://tinyurl.com/ye4rcxhb
+	\clearpage
+
+	\section{Třetí příklad} % normální číslovaný nadpis
+		\subsection*{Zadání}
+		Stanovte napětí U\textsubscript{R4} a proud I\textsubscript{R4}. Použijte metodu uzlových napětí (U\textsubscript{A},  U\textsubscript{B}, U\textsubscript{C}).
+		\\\textbf{Hodnoty pro variantu B}
+		\\U = 150 V
+		\\I\textsubscript{1} = 0.7 A
+		\\I\textsubscript{2} = 0.8 A
+		\\R\textsubscript{1} = 49 \si{\ohm}
+		\\R\textsubscript{2} = 45 \si{\ohm}
+		\\R\textsubscript{3} = 61 \si{\ohm}
+		\\R\textsubscript{4} = 34 \si{\ohm}
+		\\R\textsubscript{5} = 34 \si{\ohm}
+		\bigskip
+				\bigskip
+		
+		\textbf{Schéma}
+		\medskip
+
+		\centerline{
+		\includegraphics[scale=0.5]{images/priklad3ph1.png}
+		}
+		\clearpage
+		\textbf{Řešení pomocí metody uzlových napětí}
+		\\1. Přepočítáme napěťový zdroj U na proudový I\textsubscript{3} a označíme nezávislé uzly
+		
+		\centerline{
+		\includegraphics[scale=0.5]{images/priklad3ph2.png}
+		}
+		
+		\medskip
+		\(
+		\\G_1 = \frac{1}{R_1} = \frac{1}{49} S
+		\medskip
+		\\G_2 = \frac{1}{R_2} = \frac{1}{45} S
+		\medskip
+		\\G_3 = \frac{1}{R_3} = \frac{1}{61} S
+		\medskip
+		\\G_4 = \frac{1}{R_4} = \frac{1}{34} S
+		\medskip
+		\\G_5 = \frac{1}{R_5} = \frac{1}{34} S
+		\medskip
+		\\I_3 = \frac{U}{R_5} = \frac{150}{34} = \frac{75}{17} \doteq 4.4118 A
+	    \)
+	    
+	    \bigskip
+	    \bigskip
+	    \bigskip
+		\bigskip
+
+		2. Sestavíme rovnice pro nezávislé uzly
+		\medskip
+		\(
+		\\A: I_1 + G_2 (U_A - U_B) - G_1 U_A = 0 
+		\medskip
+		\\B: -I_3 - G_2 (U_A - U_B) + G_4 (U_B - U_C) + G_5 (U_B - U_C) = 0 
+		\medskip
+		\\C: I_2 + G_4 (U_B - U_C) + G_5 (U_B - U_C) - G_3 U_C - I_3 = 0
+	    \)
+		
+		\bigskip
+		\bigskip
+		
+		3. Vyjádříme proudy z rovnic
+				\medskip
+		\(
+		\\A: I_1 = U_A (G_1 + G_2) - G_2 U_B
+		\medskip
+		\\B: I_3 = U_A (-G_2) + U_B (G_2 + G_4 + G_5) + U_C (-G_4 - G_5)
+		\medskip
+		\\C: I_2 - I_3 = U_C (G_3 + G_4 + G_5) + U_B (-G_4 - G_5)
+	    \)
+		
+		\bigskip
+		\medskip
+	\begin{gather*}
+		\begin{bmatrix}
+			G_1 + G_2	&	-G_2            & 0 \\
+			-G_2		&	G_2 + G_4 + G_5 & -G_4 - G_5 \\
+			0           & -G_4 - G_5        & G_3 + G_4 + G_5
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			U_A \\
+			U_B \\
+			U_C \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			I_1 \\
+			I_3 \\
+			I_2 - I_3 \\
+		\end{bmatrix}
+		\\
+		\begin{bmatrix}
+			\frac{94}{2205}		&	-\frac{1}{45}   &   0 \\
+			-\frac{1}{45}       &   \frac{62}{765}  &   -\frac{1}{17}\\
+			0                   &   -\frac{1}{17}   &   \frac{78}{1037}
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			U_A \\
+			U_B \\
+			U_C \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			\medskip
+			\frac{7}{10} \\
+			\medskip
+			\frac{75}{17} \\
+			\medskip
+			\frac{8}{10}-\frac{75}{17}
+		\end{bmatrix}
+	\end{gather*}
+	\medskip
+	
+    \(
+    \\U_A = \frac{102851}{1720}
+    \medskip
+    \\U_B = \frac{71563}{860}
+    \medskip
+    \\U_C = \frac{29341}{1720}
+    \)
+	 
+	 \medskip
+	  
+	Nakonec dopočítáme I\textsubscript{R4} a U\textsubscript{R4} pomocí U\textsubscript{B} a U\textsubscript{C}
+    \medskip
+        \(
+        \\U_{R4} = U_{B} - U_{C} = \frac{71563}{860} - \frac{29341}{1720} = \frac{22757}{344} \doteq 
+        66.1541 V
+        \medskip
+		\\I_{R4} = \frac{U_{R4}}{R_4} = \frac{\frac{22757}{344}}{34} = \frac{22757}{11696} \doteq 1.9457 A
+		\medskip
+	    \)
+    \medskip
+		\\Simulace obvodu: http://tinyurl.com/yjoyy2kz
+	\clearpage
+
+	\section{Čtvrtý příklad} % normální číslovaný nadpis
+		\subsection*{Zadání}
+		Pro napájecí napětí platí: 
+		u\textsubscript{1} =  U\textsubscript{1} · sin(2\si{\pi}ft), u\textsubscript{2} = U\textsubscript{2} · sin(2\si{\pi}ft).
+		\\Ve vztahu pro napětí u\textsubscript{C\textsubscript{2}} = U\textsubscript{C\textsubscript{2}} · sin(2\si{\pi}ft + $\varphi$\textsubscript{C\textsubscript{2}}) určete \textbar U\textsubscript{C\textsubscript{2}}\textbar a $\varphi$\textsubscript{C\textsubscript{2}}. 
+		\\\textbf{Hodnoty pro variantu F}
+		\\U1 = 20 V 
+		\\U2 = 35 V 
+		\\R1 = 12 \si{\ohm} 
+		\\R2 = 10 \si{\ohm}
+		\\L1 = 170 mH
+		\\L2 = 80 mH
+		\\C1 = \SI{150}{\micro F}
+		\\C2 = \SI{90}{\micro F}
+		\\f = 65 Hz
+		
+		\medskip
+		
+		Použijte metodu smyčkových proudů
+		
+		\medskip
+		
+		\centerline{
+		\includegraphics[scale=0.5]{images/priklad4.png}
+		}
+	    \clearpage
+	    
+		Výpočet úhlové frekvence $\omega$:
+		\(
+		\\ \omega = 2 \pi f = 2 \pi 65 = 130 \pi \; \text{rad/s}
+	    \)
+	    \medskip
+	    \\Smyčka I\textsubscript{B} neovlivňuje hodnoty C\textsubscript{2}, protože ve smyčce I\textsubscript{B} není C\textsubscript{2} zahrnut.
+		\bigskip
+		\medskip
+	\begin{gather*}
+	    \begin{bmatrix}
+		    L_1 + C_2	& -C_2 \\
+			-C_2        & C_2 + R_2 + L_2 \\
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			I_A \\
+			I_C \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			U_1 \\
+		    -U_2 \\
+		\end{bmatrix}
+		\\
+		\medskip
+		\begin{bmatrix}
+			\omega L_1j - \frac{j}{\omega C_2}	& \frac{j}{\omega C_2} \\
+			\frac{j}{\omega C_2} & -\frac{j}{\omega C_2} + R_2 + \omega L_2j \\
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			I_A \\
+			I_C \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			U_1 \\
+		    -U_2 \\
+		\end{bmatrix}
+		\\
+		\begin{bmatrix}
+		    42.2232j & 27.2060j\\
+			27.2060j & 10 + 59.8785j \\
+		\end{bmatrix}
+		\cdot
+		\begin{bmatrix}
+			I_A \\
+			I_C \\
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			\medskip
+			20 \\
+			\medskip
+			-35 \\
+		\end{bmatrix}
+	\end{gather*}
+	\medskip
+	\(
+	\\I_A = 1.2567 + 1.0423j
+	\medskip
+	\\I_C = 1.9504 + 2.3528j
+	\medskip
+	\\I\textsubscript{C\textsubscript{2}} = I_C - I_A = (1.9504 + 2.3528j) - (1.2567 + 1.0423j) = 0.6937 + 1.3105j A
+	\medskip
+	\)
+	\\Výpočet napětí U\textsubscript{C\textsubscript{2}}
+	\medskip
+	\(
+	\\X\textsubscript{C\textsubscript{2}} = - \frac{1}{\omega C_2}j = - \frac{1}{130\pi \cdot 0.00009}j \doteq -27.2060j \Omega
+	\medskip
+	\\U\textsubscript{C\textsubscript{2}} = I\textsubscript{C\textsubscript{2}} \cdot X\textsubscript{C\textsubscript{2}} = (0.6937 + 1.3105j) \cdot -27.2060j \doteq 35.6535 -18.8728j V
+	\bigskip
+	\)
+	Výpočet $|U\textsubscript{C\textsubscript{2}}|$ a $\varphi$\textsubscript{C\textsubscript{2}}
+	\medskip
+	\(
+	\\|U\textsubscript{C\textsubscript{2}}| = \sqrt{Re(U\textsubscript{C\textsubscript{2}})^2 + Im(U\textsubscript{C\textsubscript{2}})^2} = \sqrt{(35.6535)^2 + (-18.8728)^2} = 40.3405V
+	\medskip
+	\\\varphi\textsubscript{C\textsubscript{2}} = arctan\frac{Im(U\textsubscript{C\textsubscript{2}})}{Re(U\textsubscript{C\textsubscript{2}})} = arctan \frac{-18.8728}{35.6535} \doteq -0.4868 rad \doteq -27.89^{\circ}
+	\)
+	\medskip
+	\\Nacházíme se ve 4tém kvadrantu, je nutné přičíst $\pi(180^{\circ}$)
+	\(
+	\\{\varphi_C}_2 = -27.89^{\circ} + 180^{\circ} = 152.11^{\circ}
+	\)
+	\medskip
+	\\Simulace obvodu http://tinyurl.com/su6h47q
+	\clearpage
+
+	\section{Pátý příklad} % normální číslovaný nadpis
+		\subsection*{Zadání}
+        V obvodu na obrázku níže v čase t = 0[s] sepne spínač S. Sestavte diferenciální  rovnici popisující chování obvodu na obrázku, dále ji upravte dosazením hodnot parametrů. Vypočítejte analytické řešení uC = f(t). Proveďte
+        kontrolu výpočtu dosazením do sestavené diferenciální rovnice.
+        \\\textbf{Hodnoty pro variantu D}
+		\(
+		\\U = 25V
+		\\C = 5 F
+		\\R = 25 \Omega
+		\\u_C(0) = 12
+        \)
+        
+        \centerline{
+		\includegraphics[scale=0.7]{images/priklad5.png}
+		}
+	\clearpage
+    Výpočet Uc v čase t
+    \(
+        \\u_c = U_0(1-e^{-\frac{t}{\tau}})
+    \)
+    \medskip
+    \\Výpočet počátečního stavu U\textsubscript{C} 
+    
+    \(
+        \tau = RC = 25*5 = 125
+        \medskip
+        \\U_C(t_n) = 12:
+        \medskip
+        \\12 = 25(1 - e^{-\frac{t_n}{125}})
+        \medskip
+        \\12 = 25 - 25e^{-\frac{t_n}{125}}
+        \medskip
+        \\\cfrac{13}{25} = e^{-\frac{t_n}{125}}
+        \medskip
+        \\t_n = - \frac{log(\frac{13}{25})}{log(e)} * 125
+        \medskip
+        \\t_n = -125ln(\frac{13}{25}) \doteq 81.7408 s
+        \medskip
+    \)
+    \medskip
+    
+    Výsledná rovnice pro U\textsubscript{C}
+    \(
+       \\ U_C = U_0(1 - e^{-\frac{t+t_n}{RC}})
+    \)
+    
+	\clearpage
+
+   \section*{Závěr}
+	
+\begin{center}
+    \tabcolsep=1pt\relax
+    \small
+
+    \begin{tabular}{|l|c|c|c|c|c|} \hline
+         Příklad 1 (F) & Příklad 2 (D) & Příklad 3 (B) & Příklad 4 (F) & Příklad 5 (D) \\\hline
+         
+         $U_{R5} \doteq$ 45.0977 V & $U_{R6} \doteq$ 31.7771 V  &  $U_{R4} \doteq$66.1541 V  &  ${\varphi_C}_2 = 152.11^{\circ}$  &  $U_C = U_0(1 - e^{-\frac{t+t_n}{RC}})$ \\  \hline
+         
+         $I_{R5} \doteq$ 150.3257 mA & $I_{R6} \doteq$ 79.4427 mA  & $I_{R4} \doteq$ 1.9457 A       &  $|{U_C}_2|$ = 40.3405V  &  $t_n \doteq 81.7408 s$ \\ \hline
+    \end{tabular}
+
+\end{center}\medskip
+\end{document}
