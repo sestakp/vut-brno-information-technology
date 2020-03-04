@@ -50,50 +50,40 @@ void drawLine (int x1, int y1, int x2, int y2) {
 
 	int dx = (x2-x1);
 	int dy = (y2-y1);
-	bool swap = false; //indicate if we swapped X and Y
-	// Doplnte ...
+	bool swap = false;
 
-	//if line raising faster on Y then X, need to swap X,Y points, calculate equals
-	//Before sending to frame_buffer, we need to switch it again
+	// Doplnte ...
+	
+	//if y is raising faster than x, we need to swap X and Y
 	if(abs(dy) > abs(dx))
 	{
 		SWAP(x1,y1);
 		SWAP(x2,y2);
+		SWAP(dx,dy);
 		swap = true;
 	}
-	
-	//Swap points
+
+	//we need to swap points if x1 > x2
 	if(x1 > x2)
 	{
 		SWAP(x1,x2);
 		SWAP(y1,y2);
 	}
 
-	//Identity of points
+	//if points are equal
 	if(x1 == x2 && y1 == y2)
 		return;
 
-	//calculate direction
-	int y = y1 << FRAC_BITS;;
-	int k;
-
-	if(swap)
-		k = (dx << FRAC_BITS) / dy;
-	else
-		k = (dy << FRAC_BITS) / dx;
-
-
-	//Draw a line
+	int y = y1 << FRAC_BITS;
+	int k = (dy << FRAC_BITS) / dx;
 	for (int x = x1; x <= x2; x++)
 	{
-      
 		// Doplnte a upravte ...
-		if(swap) //IF we swapped axis, we need to swap it again
-			putPixel( y >> FRAC_BITS, x, COLOR_GREEN);
-		else
+        if(swap)
+			putPixel(y >> FRAC_BITS, x , COLOR_GREEN);
+		else         
 			putPixel( x, y >> FRAC_BITS, COLOR_GREEN);
-
-		y += k; //increment direction
+		y += k;
 	}
 }
 
@@ -102,24 +92,22 @@ void drawLine (int x1, int y1, int x2, int y2) {
 ////////////////////////////////////////////////////////////////////////////////
 void put8PixelsOfCircle(int x, int y, int s1, int s2, S_RGBA color) {
 
-	// Doplnte ...
-
-
-    //I. quadrant
-	putPixel(x+s1,-y+s2,color);
-	putPixel(y+s1,-x+s2,color);
+	//I. quadrant
+	putPixel(x+s1,s2-y,color);
+	putPixel(y+s1,s2-x,color);
 	
 	//II. quadrant
-	putPixel(-x+s1,-y+s2,color);
-	putPixel(-y+s1,-x+s2,color);
+	putPixel(s1-x,s2-y,color);
+	putPixel(s1-y,s2-x,color);
 	
 	//III. quadrant
-	putPixel(-y+s1,x+s2,color);
-	putPixel(-x+s1,y+s2,color);
+	putPixel(s1-x,y+s2,color);
+	putPixel(s1-y,x+s2,color);
 	
 	//IV. quadrant
 	putPixel(x+s1,y+s2,color);
 	putPixel(y+s1,x+s2,color);
+    
 }
 
 void drawCircle (int s1, int s2, int R)
