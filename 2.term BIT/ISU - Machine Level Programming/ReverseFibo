@@ -1,0 +1,59 @@
+%include "io.inc"
+%include "rw32-2018.inc"
+
+section .data
+
+    Numbs db 10
+
+section .text
+global CMAIN
+
+PrintFIBO:
+    push ebp
+    mov ebp,esp
+    ;here is code
+    
+    mov eax,[esp+8]    
+    mov ebx,[esp+12]
+    mov edx,[esp+16]
+    
+    add ebx, eax
+    dec edx
+    
+    cmp edx,0
+    jz LAST
+
+NLAST:
+    push edx
+    push eax
+    push ebx
+    call PrintFIBO    
+LAST:
+    mov eax, [esp +8]
+    call WriteInt32
+    call WriteNewLine
+    
+END:    
+    
+    pop ebp
+    ret 12
+
+
+CMAIN:
+    mov ebp, esp; for correct debugging
+    push ebp
+    mov ebp, esp
+    ;write your code here
+    
+    mov eax,[Numbs]
+    push eax
+    mov eax,1
+    push eax
+    push eax
+    call PrintFIBO
+    
+    
+    
+    xor eax, eax
+    pop ebp
+    ret
