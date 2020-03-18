@@ -3,9 +3,9 @@
 
 section .data
     
-    values db 10, 20, 5, 8, 9, 9, 7, 15 
+    values db 60, 30
 
-    length db 8
+    length db 2
     
 section .text
 
@@ -26,7 +26,7 @@ AVERAGE:
     
     mov edx,ecx ;store value of ecx to eax
 CALC:
-    mov ebx, [esi+ecx];calculate position in array
+    mov ebx, [esi+ecx-1];calculate position in array
     add al,bl ;sum is stored in dl
     
     loop CALC    
