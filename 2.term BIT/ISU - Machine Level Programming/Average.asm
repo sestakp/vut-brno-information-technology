@@ -3,9 +3,9 @@
 
 section .data
     
-    values db 60, 30
+    values db 10,5,2,15,4,7,11,24,4
 
-    length db 2
+    length db 9
     
 section .text
 
