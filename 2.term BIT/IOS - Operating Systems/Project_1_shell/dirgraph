@@ -1,0 +1,263 @@
+#!/bin/bash
+POSIXLY_CORRECT=yes
+
+#working with PARAMS
+NORMALIZED=0
+IGNORE=""
+WORKDIR=""
+WIDTH=0
+MAX=0
+EXIT_CODE=0
+                                                                                                                                                                      
+v100B=0                                                                                                                                                                                                         
+v1KiB=0                                                                                                                                                                                                         
+v10KiB=0                                                                                                                                                                                                        
+v100KiB=0                                                                                                                                                                                                       
+v1MiB=0                                                                                                                                                                                                         
+v10MiB=0                                                                                                                                                                                                        
+v100MiB=0                                                                                                                                                                                                       
+v1GiB=0                                                                                                                                                                                                         
+voverGiB=0     
+
+DIRCOUNT=0
+FILECOUNT=0
+
+# $# return number of arguments (argc)
+# while argc > 0
+while [ "$#" -gt 0 ]; do
+	arg="$1"
+	case "$arg" in
+		-i)
+			IGNORE="$2"
+			shift
+			shift
+			;;
+		-n)
+			NORMALIZED=1
+			shift
+			;;
+   		-in|-ni)
+	   		NORMALIZED=1
+			IGNORE="$2"
+			shift
+			shift
+			;;
+   	     *)	
+		 	if [ -d "$1" ]; then
+				WORKDIR="$1"
+			else
+				>&2 echo ">>>ERROR: Invalid argument passed."
+				EXIT_CODE=1
+			fi
+			shift
+			;;
+	esac
+done
+
+#if workdir wasn't specified work with CWD
+if [ "$WORKDIR" = "" ]; then
+	WORKDIR="."
+fi
+
+
+#backup IFS and set new one, its possible to work with spaces in filenames
+OIFS="$IFS"
+IFS='
+'
+set -f
+
+COMMAND='find '$WORKDIR' 2>/dev/null '
+
+if [ "$IGNORE" != "" ]; then	
+	COMMAND=$COMMAND" | grep -v -E '$IGNORE'"
+fi
+
+LIST=$(eval $COMMAND)
+
+for file in $LIST; do
+
+#test current file if return error;
+find "$file" ! -path "$file" -prune -print 2>/dev/null 1>/dev/null
+if [ "$?" != 0 ]; then
+	>&2 echo ">>>ERROR: Error while finding items, problem with item $file"
+	EXIT_CODE=1
+	continue;
+fi
+
+if [ -d "$file" ]; then
+	DIRCOUNT=$(($DIRCOUNT+1))
+
+# if current file is file
+elif [ -f "$file" ]; then
+
+	FILECOUNT=$(($FILECOUNT+1))
+
+	# word count -c return size in bytes. file redirect to stdin, wc dont know name of file and print just number
+	BYTE=$(wc -c 2>/dev/null <"$file")
+	if [ "$?" != 0 ]; then
+		>&2 echo ">>>ERROR: File $file wasn't load correctly"
+		EXIT_CODE=1
+		continue;
+	fi
+	#checking for size
+	if [ "$BYTE" -lt 100 ]; then	
+		v100B=$(($v100B+1))
+		UPDATE=$v100B
+
+	elif [ "$BYTE" -lt 1024 ]; then
+		v1KiB=$(($v1KiB+1))
+		UPDATE=$v1KiB
+
+	elif [ "$BYTE" -lt 10240 ]; then
+		v10KiB=$(($v10KiB+1))
+		UPDATE=$v10KiB
+
+	elif [ "$BYTE" -lt 102400 ]; then
+		v100KiB=$(($v100KiB+1))
+		UPDATE=$v100KiB
+
+	elif [ "$BYTE" -lt 1048576 ]; then
+		v1MiB=$(($v1MiB+1))
+		UPDATE=$v1MiB
+
+	elif [ "$BYTE" -lt 10485760 ]; then
+		 v10MiB=$(($v10MiB+1))
+		UPDATE=$v10MiB
+
+	elif [ "$BYTE" -lt 104857600 ];	then
+		v100MiB=$(($v100MiB+1))	
+		UPDATE=$v100MiB
+
+	elif [ "$BYTE" -lt 1073741824 ]; then
+		v1GiB=$(($v1GiB+1))
+		UPDATE=$v1GiB
+
+	elif [ "$BYTE" -gt 1073741824 ]; then
+		voverGiB=$(($voverGiB+1))
+		UPDATE=$voverGiB
+	fi
+
+	if [ $NORMALIZED = 1 ] && [ $UPDATE -gt $MAX ] ; then
+		MAX=$UPDATE
+	fi
+ fi
+done;
+
+IFS="$OIFS"
+
+#calculate normalization
+if [ $NORMALIZED = 1 ]; then
+	
+	#checking if file descriptor is opened on a terminal
+	if [ -t 1 ]; then
+		#tput cols return width of terminal window
+		#12 is number of char description in output
+		WIDTH=$(($(tput cols)-12))
+	
+	else
+		WIDTH=79
+	fi
+	
+	#normalization is applyed only if some value is over width
+	if [ $MAX -gt $WIDTH ]; then
+		#calculate new widths
+		v100B=$((($WIDTH*$v100B)/$MAX))
+		v1KiB=$((($WIDTH*$v1KiB)/$MAX))
+		v10KiB=$((($WIDTH*$v10KiB)/$MAX))
+		v100KiB=$((($WIDTH*$v100KiB)/$MAX))
+		v1MiB=$((($WIDTH*$v1MiB)/$MAX))
+		v10MiB=$((($WIDTH*$v10MiB)/$MAX))
+		v100MiB=$((($WIDTH*$v100MiB)/$MAX))
+		v1GiB=$((($WIDTH*$v1GiB)/$MAX))
+		voverGiB=$((($WIDTH*$voverGiB)/$MAX))
+
+	fi
+fi
+
+#if regex match with homedir we need to add back
+if [ "$DIRCOUNT" -lt 1 ]; then
+	DIRCOUNT=1
+fi
+
+
+echo 'Root directory: '$WORKDIR 
+
+echo 'Directories: '$DIRCOUNT
+
+echo 'All files: '$FILECOUNT
+
+echo 'File size histogram:'
+
+ #< 100 B
+ tags="" 
+ while [ $v100B -gt 0 ]; do 
+   tags=$tags"#"
+   v100B=$(($v100B-1))
+ done
+ echo '  <100 B  :'$tags
+ 
+ #<1 KiB
+ tags=""
+ while [ $v1KiB -gt 0 ]; do 
+   tags=$tags"#"
+   v1KiB=$(($v1KiB-1))
+ done
+ echo '  <1 KiB  :'$tags
+ 
+ #<10 KiB
+ tags=""
+ while [ $v10KiB -gt 0 ]; do 
+   tags=$tags"#"
+   v10KiB=$(($v10KiB-1))
+ done
+ echo '  <10 KiB :'$tags
+ 
+ #<100 KiBtags=""
+ tags=""
+ while [ $v100KiB -gt 0 ]; do 
+   tags=$tags"#"
+   v100KiB=$(($v100KiB-1))
+ done
+ echo '  <100 KiB:'$tags
+
+ #<1 MiB 
+ tags=""
+ while [ $v1MiB -gt 0 ]; do 
+   tags=$tags"#"
+   v1MiB=$(($v1MiB-1))
+ done
+ echo '  <1 MiB  :'$tags
+ 
+ #<10 MiB
+ tags="" 
+ while [ $v10MiB -gt 0 ]; do 
+   tags=$tags"#"
+   v10MiB=$(($v10MiB-1))
+ done
+ echo '  <10 MiB :'$tags
+	 
+ #<100 MiB
+ tags=""
+ while [ $v100MiB -gt 0 ]; do 
+   tags=$tags"#"
+   v100MiB=$(($v100MiB-1))
+ done
+ echo '  <100 MiB:'$tags
+ 
+ #<1 GiB
+ tags=""
+ while [ $v1GiB -gt 0 ]; do 
+   tags=$tags"#"
+   v1GiB=$(($v1GiB-1))
+ done
+ echo '  <1 GiB  :'$tags
+ 
+ # >= GiB
+ tags=""
+ while [ $voverGiB -gt 0 ]; do 
+   tags=$tags"#"
+   voverGiB=$(($voverGiB-1))
+ done
+ echo '  >=1 GiB :'$tags
+	 
+exit $EXIT_CODE
