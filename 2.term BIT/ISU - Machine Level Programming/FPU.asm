@@ -4,7 +4,7 @@
 section .data
     ;zde je misto na vase data
     r dd 7
-    string db "Obsah ctverce o polomeru ",0
+    string db "Obsah kruhu o polomeru ",0
     string2 db " je "
 section .bss
     ;misto pro dynamicka data
