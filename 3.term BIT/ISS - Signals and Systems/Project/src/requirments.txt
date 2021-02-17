@@ -1,0 +1,5 @@
+List of pip packages:
+numpy
+matplotlib
+wave
+scipy

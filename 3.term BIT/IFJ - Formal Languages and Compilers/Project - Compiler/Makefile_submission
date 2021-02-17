@@ -1,0 +1,14 @@
+CC=gcc -std=c99 -g -Werror
+NAME=compiler
+
+build:
+	@echo "[info] starting CC build"
+	$(CC) *.c -o $(NAME)
+
+debug:
+	@echo "[info] build debug"
+	$(CC) *.c -D DEBUG=3 -o $(NAME)
+
+clean:
+	@echo "[info] deleting build"
+	rm $(NAME)
