@@ -1,0 +1,62 @@
+\documentclass[12pt,a4paper]{article} %deklarace typu dokumentu
+\usepackage[utf8]{inputenc} %kódování
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{fixltx2e}
+\usepackage[unicode]{hyperref}
+\usepackage{siunitx}
+\usepackage{graphicx}
+%rovnice k levému okraji
+\usepackage{amsmath}
+\graphicspath{ {./images/} }
+
+\title{Semestrální projekt - Elektronika pro informační technologie}
+\author{Pavel Šesták [xsesta07]}
+\date{3.10.2019}                                         
+                                              
+\begin{document}
+    \begin{titlepage}
+		\begin{center}
+			\textsc{\LARGE Vysoké Učení Technické v Brně} \\[0.5cm]
+			{\LARGE Fakulta informačních technologií}
+
+			\begin{figure}
+				\center\includegraphics[scale=0.3]{images/logo.png}
+			\end{figure}
+
+			\vspace{3cm}
+
+			\textsc{\LARGE ÚVOD DO SOFTWAROVÉHO INŽENÝRSTVÍ} \\[0.5cm]
+			\textsc{\LARGE 2019/2020} \\[3.5cm]
+
+			\textbf{\LARGE Projekt - Model informačního systému} \\[2cm]
+			\textbf{Zadání č. 4 – Prodejna se sýry}
+		\end{center}
+		\vfill
+		\begin{flushleft} 
+			\large
+			Pavel Šesták (xsesta07) 
+			\hfill
+			Brno, \today
+		\end{flushleft}
+	\end{titlepage}
+    
+    \section*{Zadání -  4. Prodejna se sýry}
+   
+Navrhněte IS prodejny se sýry, který by měl umožňovat evidovat zboží v prodejně a v jejím skladu. Dále by měl umožnit zaměstnanci objednávat sýry v prodejně a na skladu od různých dodavatelů. Jedna objednávka může obsahovat i více druhů zboží. Sýry se kategorizují podle více kritérií: země původu, živočicha (kravský, ovčí, kozí, jačí, ...), typu (ementálový, plísňový, uzený, ...). U sýru je nutno evidovat procento tuku. Sýry jsou do prodejny dodávány v bochnících, kde pro každý bochník je třeba evidovat jeho počáteční hmotnost, aktuální hmotnost na prodejně, datum dodání, trvanlivost. Zaměstnanci si mohou vyhledávat sýry i podle země původu, u které jsou k dispozici relevantní informace o sýrech z dané země, či podle jeho druhu nebo živočicha. Zaměstnanci prodejny mohou objednávat různé druhy sýrů u různých dodavatelů (ne všichni dodavatelé dodávají všechny druhy sýra), přičemž objednávka může obsahovat více druhů sýrů a u každého druhu je nutno specifikovat množství (hmotnost). Pro dodané sýry je nutno mít možnost dohledat, ke které objednávce patří a od kterého dodavatele jsou.
+    \clearpage
+    \section*{Use case} % nečíslovaný nadpis, není uveden v obsahu
+        \center\includegraphics[scale=0.5]{images/IUS_semestralka_UseCaseDia.png}
+	\clearpage
+	\section*{ERD Diagram} % nečíslovaný nadpis, není uveden v obsahu
+        
+        %\center\includegraphics[scale=0.45]{images/ERD_diagram.png}
+
+            \includegraphics[width=1.3\textwidth, angle =90 ]{images/ERD_diagram.png}
+
+	\clearpage
+
+
+	
+
+
+\end{document}
