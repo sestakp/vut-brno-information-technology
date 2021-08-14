@@ -1,0 +1,23 @@
+.Button{
+    height: 100%;
+    width: 25%;
+    border: 0;
+    outline-width: 0;
+    font-size: larger;
+    font-weight: bolder;
+    background-color: #202020;
+    color:#e6e3e3;
+}
+
+.Button:hover{
+    background-color: #303030;
+}
+
+.Button:active{
+
+}
+
+.ButtonZero{
+    width:50%; 
+    padding-right:25%;
+}

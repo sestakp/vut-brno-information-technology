@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DECLARATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,czech]{article}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage[utf8]{inputenc} % set coding
+\usepackage{czech}
+\usepackage[legalpaper, portrait, margin=0.8in]{geometry}
+\usepackage{fixltx2e}
+\usepackage{hyperref}
+\usepackage{textgreek}
+\usepackage{textcomp}
+\usepackage{adjustbox}
+\usepackage{float}
+\usepackage{tabto}
+\usepackage{amsmath}
+\newcommand\mytab{\tab \hspace{10mm}}
+\usepackage{xcolor}
+
+\author{
+  Kulíšek, Vojtěch\\
+  \texttt{xkulis03@stud.fit.vutbr.cz}
+  \and
+  Plevač, Lukáš\\
+  \texttt{xpleva07@stud.fit.vutbr.cz}
+  \and
+  Šesták, Pavel\\
+  \texttt{xsesta07@stud.fit.vutbr.cz}
+  \and
+  Koláríková, Marie\\
+  \texttt{xkolar77@stud.fit.vutbr.cz}
+}
+
+\title{Calculator - User manual}
+\date{12.11.2020}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+  \begin{titlepage}
+		\begin{center}
+			%\textsc{\LARGE Vysoké Učení Technické v Brně} \\[0.5cm]
+			%{\LARGE Fakulta informačních technologií}
+
+			\begin{figure}
+				\center\includegraphics[scale=0.3]{images/logo.png}
+			\end{figure}
+
+			\vspace{3cm}
+
+			\textsc{\LARGE 	Praktické aspekty vývoje software	} \\[0.5cm]
+			\textsc{\LARGE 2020/2021} \\[3.5cm]
+
+			\textbf{\LARGE Uživatelská příručka} \\
+			\vspace{3cm}
+		    \vspace{3cm}
+		    
+		    \Large{Kulíšek Vojtěch(xkulis03),\\
+		    Koláríková Marie(xkolar77),\\
+		    Plevač Lukáš(xpleva07),\\
+		    Šesták Pavel(xsesta07)} \\[0.5cm]
+		    
+			
+			\vspace{3cm}
+                
+		    \textsc{}{\LARGE Brno, \today}
+
+		\end{center}
+	\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONTENT TABLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+	\tableofcontents %content generate
+	\newpage %end of page
+\end{center}
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SECTIONS       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Úvod}
+Kalkulačka slouží k~počítání základních matematických operací. 
+Dostupné matematické operace jsou sčítání, odčítání, násobení, dělení, mocnina, odmocnina, faktoriál a~modulo. Kalkulačka umožňuje zadávání komplexních výrazů.
+
+\subsection{Precedence operátorů}
+\begin{enumerate}
+  \item faktoriál
+  \item mocnina, odmocnina
+  \item násobení, dělení, modulo
+  \item sčítání, odčítání
+\end{enumerate}
+
+
+\newpage
+
+\section{Instalace}
+\smallskip
+\subsection{Windows}
+\subsubsection*{Zapnutí instalačního programu}
+Přejděte do složky obsahující instalační program kalkulačky. \newline
+Zapněte program \textbf{but\_fit\_ivs Setup~0.1.0.exe}.
+
+\subsubsection*{Průběh instalace}
+Po spuštění instalačního programu, počkejte, než se kalkulačka nainstaluje.
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/instalace.png}}
+\end{figure}
+
+\subsubsection*{Dokončení instalace}
+Po dokončení instalace se kalkulačka spustí.
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/kalkulacka.png}}
+\end{figure}
+
+\subsection{Odinstalace}
+Pokud chcete kalkulačku odinstalovat, zapněte \textbf{nastavení}, poté \textbf{aplikace}, v~seznamu najděte položku \textbf{but\_fit\_ivs~0.1.0} a~vyberte \textbf{odinstalovat}.
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/odinstalace.png}}
+\end{figure}
+
+\newpage
+\subsection{Linux}
+V případě distribuce založené na Debianu pro instalaci \newline
+použijeme příkaz: \textbf{sudo dpkg -i but\_fit\_ivs\_0.1.0\_amd64.deb}. \newline
+Pro odinstalaci \textbf{sudo apt purge but-fit-ivs}.\newline
+V případě jiné distribuce lze využit: \textbf{but\_fit\_ivs-0.1.0.AppImage}.
+
+
+\subsection{Mac OS}
+Pro instalaci na MacOS slouží soubor \textbf{but\_fit\_ivs-0.1.0-mac.zip}, který je na Mac zařízeních interpretován jako instalační soubor.
+
+\newpage
+\section{Pro vývojáře}
+\subsection{Závislosti}
+\begin{itemize}
+    \item{wine Mono}
+    \item{npm}
+\end{itemize}
+Po instalaci všech závislostí přejdeme do složky src. Příkazem \textbf{npm install} nainstalujeme moduly Node a závislosti pro projekt definované v \textbf{package.json}. Veškeré operace spojené s projektem jsou definované v rámci \textbf{src/Makefile} a je doporučené si tento makefile prostudovat před případnou prácí s projektem.
+
+\subsection{Profiling}
+Při profilingu jsme objevili problém s načítáním ze standardního vstupu s chybovou hláškou EACCESS permision denied i přes správně nastavená práva. Tato chyba se projevuje na určitých verzí Node. Pro profiling je nutný jinak nastavený package.json než pro spuštění a build. Tyto závislosti jsou nastaveny v makefile.
+
+\newpage
+\section{Práce s~kalkulačkou}
+K~zadání čísel a~matematických operací je možné použít tlačítka aplikace nebo klávesnici. Před použitím klávesnice je nutné myší vybrat vstup dat, který se nachází v horní části aplikace. 
+
+\subsection{Ovládání pomocí klávesnice}
+Pomocí vkládání lze standardně vkládat čísla, závorky a základní operátory.
+Jako separátor desetinného čísla lze využít jak tečku tak čárku. Speciální operátory jako dělení a násobení se automaticky upravují při vkládání. Pro znak násobení použijeme zástupný znak "*". Obdobně pro dělení použijeme znak "/", který se přeloží na znak "÷". Odmocninu lze zapsat pomocí příkazu "\textbackslash sqrt".
+
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/zadavani.png}}
+\caption{Příklad vstupu kalkulačky}
+\end{figure}
+
+ 
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/vysledek.png}}
+\caption{Pro zobrazení výsledku slouží tlačítko, klávesa \textbf{"="}~nebo klávesa "\textbf{enter}".}
+\end{figure}
+
+\newpage
+
+
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/AnsTlacitko.png}}
+\caption{Tlačítko \textbf{Ans} umožní použít poslední výsledek k dalšímu výpočtu.}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\scalebox{0.5}{\includegraphics{images/smazat.png}}
+\caption{Pokud potřebujete zadanou úlohu změnit, použijte tlačítko \textbf{C}, které vše smaže, nebo klávesu \textbf{delete}.}
+\end{figure}
+
+\section{Formát zadávání operací}
+Klasické operace sčítání, odčítání, násobení, dělení se zadávají \newline
+standardně ve formátu \textbf{operand1, operátor, operand2}.\\
+\textbf{Například:} 7 - 4 = 3.
+
+\subsection{Mocnina}
+Mocnina se zadává ve formátu základ mocniny, symbol mocniny, exponent.\\
+\textbf{Například:} 2**10 = 1024.
+
+\subsection{Odmocnina}
+Mocnina se zadává ve formátu \textbf{stupeň odmocniny, symbol odmocniny, číslo k odmocnění}. V případě stupně odmocniny rovné dvěma lze tento údaj vynechat. \\
+\textbf{Například:} 2\sqrt16 = 4 = \sqrt16.
+
+\subsection{Faktoriál}
+Faktoriál se zadává ve formátu \textbf{číslo, symbol faktoriálu}.
+\textbf{Například:} 5! = 120.
+\end{document}

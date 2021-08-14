@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.App", "FestivalAdministration\FestivalAdministration.App.csproj", "{573BF593-44E5-44F0-A0EA-2695C1639226}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.DAL", "FestivalAdministration.DAL\FestivalAdministration.DAL.csproj", "{1746C21A-5B17-4236-BC6B-09D6C514CDA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.BL", "FestivalAdministration.BL\FestivalAdministration.BL.csproj", "{24FF5093-0C43-4776-8F65-858845B6B192}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.BL.Tests", "FestivalAdministration.BL.Tests\FestivalAdministration.BL.Tests.csproj", "{21A5CC0B-0C76-46E4-A93C-B7DF2D783AD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.Common", "FestivalAdministration.Common\FestivalAdministration.Common.csproj", "{54B733B4-CA56-4A77-AE5E-6F9ADC49B514}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FestivalAdministration.DAL.Tests", "FestivalAdministration.DAL.Tests\FestivalAdministration.DAL.Tests.csproj", "{ED613629-5FD6-4EC3-8FC4-80EEF21ECAD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{573BF593-44E5-44F0-A0EA-2695C1639226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573BF593-44E5-44F0-A0EA-2695C1639226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573BF593-44E5-44F0-A0EA-2695C1639226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573BF593-44E5-44F0-A0EA-2695C1639226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1746C21A-5B17-4236-BC6B-09D6C514CDA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1746C21A-5B17-4236-BC6B-09D6C514CDA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1746C21A-5B17-4236-BC6B-09D6C514CDA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1746C21A-5B17-4236-BC6B-09D6C514CDA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FF5093-0C43-4776-8F65-858845B6B192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FF5093-0C43-4776-8F65-858845B6B192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FF5093-0C43-4776-8F65-858845B6B192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FF5093-0C43-4776-8F65-858845B6B192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A5CC0B-0C76-46E4-A93C-B7DF2D783AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A5CC0B-0C76-46E4-A93C-B7DF2D783AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A5CC0B-0C76-46E4-A93C-B7DF2D783AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A5CC0B-0C76-46E4-A93C-B7DF2D783AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B733B4-CA56-4A77-AE5E-6F9ADC49B514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B733B4-CA56-4A77-AE5E-6F9ADC49B514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B733B4-CA56-4A77-AE5E-6F9ADC49B514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B733B4-CA56-4A77-AE5E-6F9ADC49B514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED613629-5FD6-4EC3-8FC4-80EEF21ECAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED613629-5FD6-4EC3-8FC4-80EEF21ECAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED613629-5FD6-4EC3-8FC4-80EEF21ECAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED613629-5FD6-4EC3-8FC4-80EEF21ECAD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EEADFBD-87D5-4B05-B550-A900A1C42A1E}
+	EndGlobalSection
+EndGlobal

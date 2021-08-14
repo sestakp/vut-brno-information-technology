@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="WindowBackground" Color="#0C0C0C" />
+    <SolidColorBrush x:Key="WindowForeground" Color="#FFF" />
+
+    <SolidColorBrush x:Key="ExitButtonBackground" Color="Red" />
+    <SolidColorBrush x:Key="ExitButtonForeground" Color="#FFF" />
+
+    <SolidColorBrush x:Key="MiniButtonBackground" Color="#FFEEB800" />
+    <SolidColorBrush x:Key="MiniButtonForeground" Color="#FFF" />
+
+    <SolidColorBrush x:Key="TabItemBackground" Color="#1C1C1C" />
+
+    <Style TargetType="{x:Type Window}" x:Key="MainWindow">
+        <Setter Property="Background" Value="{StaticResource WindowBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource WindowForeground}" />
+        <Setter Property="Title" Value="FestivalAdministration" />
+        <Setter Property="Height" Value="780" />
+        <Setter Property="Width" Value="1320" />
+        <Setter Property="MinHeight" Value="500" />
+        <Setter Property="MinWidth" Value="850" />
+        <Setter Property="WindowStyle" Value="None" />
+    </Style>
+
+</ResourceDictionary>

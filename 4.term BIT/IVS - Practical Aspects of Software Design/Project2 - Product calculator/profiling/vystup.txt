@@ -1,0 +1,138 @@
+Statistical profiling result from isolate-0x60ad9d0-19262-v8.log, (28718 ticks, 3 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+  14293   49.8%          /home/pavel/IVS/but_fit_ivs/node_modules/node/bin/node
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+  14285   49.7%   99.0%  LazyCompile: *<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+     44    0.2%    0.3%  LazyCompile: *Interface._getDisplayPos node:readline:840:46
+     22    0.1%    0.2%  RegExp: [\u001B\u009B][[\]()#;?]*(?:(?:(?:[a-zA-Z\d]*(?:;[-a-zA-Z\d\/#&.:=?%@~_]*)*)?\u0007)|(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-ntqry=><~]))
+     20    0.1%    0.1%  LazyCompile: *mathlib.Div file:///home/pavel/IVS/but_fit_ivs/src/library/mathlib.js:67:24
+     10    0.0%    0.1%  LazyCompile: *mathlib.Sub file:///home/pavel/IVS/but_fit_ivs/src/library/mathlib.js:38:23
+      8    0.0%    0.1%  LazyCompile: *mathlib.Mul file:///home/pavel/IVS/but_fit_ivs/src/library/mathlib.js:85:24
+      1    0.0%    0.0%  LazyCompile: *Interface._ttyWrite node:readline:956:41
+
+ [C++]:
+   ticks  total  nonlib   name
+      6    0.0%    0.0%  __futex_abstimed_wait_common64
+      4    0.0%    0.0%  fwrite
+      3    0.0%    0.0%  __GI___pthread_mutex_lock
+      3    0.0%    0.0%  __GI___libc_write
+      3    0.0%    0.0%  __GI___libc_malloc
+      2    0.0%    0.0%  __libc_write
+      1    0.0%    0.0%  std::ostream::sentry::sentry(std::ostream&)
+      1    0.0%    0.0%  std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)
+      1    0.0%    0.0%  _int_malloc
+      1    0.0%    0.0%  __pthread_mutex_unlock_usercnt
+      1    0.0%    0.0%  __pthread_cond_signal
+      1    0.0%    0.0%  __memcpy_avx_unaligned_erms
+      1    0.0%    0.0%  __lll_lock_wait
+      1    0.0%    0.0%  __clock_gettime
+      1    0.0%    0.0%  __brk
+      1    0.0%    0.0%  ___vsnprintf
+      1    0.0%    0.0%  __GI__IO_file_xsputn
+
+ [Summary]:
+   ticks  total  nonlib   name
+  14390   50.1%   99.8%  JavaScript
+     32    0.1%    0.2%  C++
+     27    0.1%    0.2%  GC
+  14293   49.8%          Shared libraries
+      3    0.0%          Unaccounted
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+      2   20.0%    0.0%  fwrite
+      2   20.0%    0.0%  __libc_write
+      1   10.0%    0.0%  std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)
+      1   10.0%    0.0%  __memcpy_avx_unaligned_erms
+      1   10.0%    0.0%  __clock_gettime
+      1   10.0%    0.0%  __brk
+      1   10.0%    0.0%  __GI___libc_write
+      1   10.0%    0.0%  __GI___libc_malloc
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+  14293   49.8%  /home/pavel/IVS/but_fit_ivs/node_modules/node/bin/node
+  11412   79.8%    LazyCompile: *<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+  11412  100.0%      LazyCompile: ~emit node:events:318:44
+  11412  100.0%        LazyCompile: ~ontermend node:readline:259:21
+  11412  100.0%          LazyCompile: ~emit node:events:318:44
+  11412  100.0%            LazyCompile: ~endReadableNT node:internal/streams/readable:1300:23
+   2615   18.3%    LazyCompile: ~emit node:events:318:44
+   2615  100.0%      LazyCompile: ~ontermend node:readline:259:21
+   2615  100.0%        LazyCompile: ~emit node:events:318:44
+   2615  100.0%          LazyCompile: ~endReadableNT node:internal/streams/readable:1300:23
+   2615  100.0%            LazyCompile: ~processTicksAndRejections node:internal/process/task_queues:66:35
+    160    1.1%    /home/pavel/IVS/but_fit_ivs/node_modules/node/bin/node
+     84   52.5%      LazyCompile: *Interface._getDisplayPos node:readline:840:46
+     54   64.3%        LazyCompile: *Interface._ttyWrite node:readline:956:41
+     54  100.0%          LazyCompile: ~onkeypress node:readline:266:22
+     33   61.1%            LazyCompile: ~emit node:events:318:44
+     21   38.9%            LazyCompile: *emitKeys node:internal/readline/utils:87:19
+     30   35.7%        LazyCompile: ~Interface.getCursorPos node:readline:873:44
+     29   96.7%          LazyCompile: ~Interface._insertString node:readline:605:45
+     29  100.0%            LazyCompile: ~Interface._ttyWrite node:readline:956:41
+      1    3.3%          LazyCompile: ~Interface._refreshLine node:readline:492:44
+      1  100.0%            LazyCompile: ~Interface._insertString node:readline:605:45
+     30   18.8%      /home/pavel/IVS/but_fit_ivs/node_modules/node/bin/node
+     29   96.7%        LazyCompile: *Interface._getDisplayPos node:readline:840:46
+     15   51.7%          LazyCompile: ~Interface.getCursorPos node:readline:873:44
+     15  100.0%            LazyCompile: ~Interface._insertString node:readline:605:45
+     14   48.3%          LazyCompile: *Interface._ttyWrite node:readline:956:41
+     14  100.0%            LazyCompile: ~onkeypress node:readline:266:22
+     10    6.3%      LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+     10  100.0%        LazyCompile: ~nativeModuleRequire node:internal/bootstrap/loaders:306:29
+      1   10.0%          LazyCompile: ~lazyLoadStreams node:fs:2071:25
+      1  100.0%            LazyCompile: ~get ReadStream node:fs:2179:17
+      1   10.0%          LazyCompile: ~initializeCJSLoader node:internal/bootstrap/pre_execution:413:29
+      1  100.0%            LazyCompile: ~prepareMainThreadExecution node:internal/bootstrap/pre_execution:21:36
+      1   10.0%          Eval: ~<anonymous> node:tty:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:readline:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:internal/modules/package_json_reader:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:internal/modules/esm/translators:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:internal/modules/esm/module_map:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:internal/modules/esm/get_source:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+      1   10.0%          Eval: ~<anonymous> node:internal/main/run_main_module:1:1
+      1   10.0%          Eval: ~<anonymous> node:internal/fs/promises:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:273:27
+     10    6.3%      LazyCompile: ~<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+     10  100.0%        LazyCompile: ~emit node:events:318:44
+     10  100.0%          LazyCompile: ~ontermend node:readline:259:21
+     10  100.0%            LazyCompile: ~emit node:events:318:44
+      4    2.5%      LazyCompile: ~handleWriteReq node:internal/stream_base_commons:45:24
+      4  100.0%        LazyCompile: ~writeGeneric node:internal/stream_base_commons:147:22
+      4  100.0%          LazyCompile: ~Socket._writeGeneric node:net:748:42
+      4  100.0%            LazyCompile: ~Socket._write node:net:785:35
+      3    1.9%      LazyCompile: *<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+      3  100.0%        LazyCompile: ~emit node:events:318:44
+      3  100.0%          LazyCompile: ~ontermend node:readline:259:21
+      3  100.0%            LazyCompile: ~emit node:events:318:44
+      2    1.3%      LazyCompile: ~Interface.getCursorPos node:readline:873:44
+      2  100.0%        LazyCompile: ~Interface._insertString node:readline:605:45
+      2  100.0%          LazyCompile: ~Interface._ttyWrite node:readline:956:41
+      2  100.0%            LazyCompile: ~onkeypress node:readline:266:22
+      2    1.3%      LazyCompile: *mathlib.Mul file:///home/pavel/IVS/but_fit_ivs/src/library/mathlib.js:85:24
+      2  100.0%        LazyCompile: *<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+      2  100.0%          LazyCompile: ~emit node:events:318:44
+      2  100.0%            LazyCompile: ~ontermend node:readline:259:21
+
+  14285   49.7%  LazyCompile: *<anonymous> file:///home/pavel/IVS/but_fit_ivs/profiling/profiler.js:11:25
+  14285  100.0%    LazyCompile: ~emit node:events:318:44
+  14285  100.0%      LazyCompile: ~ontermend node:readline:259:21
+  14285  100.0%        LazyCompile: ~emit node:events:318:44
+  14285  100.0%          LazyCompile: ~endReadableNT node:internal/streams/readable:1300:23
+  14285  100.0%            LazyCompile: ~processTicksAndRejections node:internal/process/task_queues:66:35
+

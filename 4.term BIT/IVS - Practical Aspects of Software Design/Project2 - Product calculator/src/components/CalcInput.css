@@ -1,0 +1,23 @@
+.CalcInput{
+    height: 120px;
+    border: 0;
+    padding: 0;
+    background-color: #202020;
+    /*box-shadow: 2px 2px 4px 4px rgb(0 0 0 / 30%), 0 15px 12px rgb(0 0 0 / 22%);*/
+    box-shadow: 1px 1px 4px 1px #191919;
+    margin-bottom: 3px;
+    position: fixed;
+    z-index: 1;
+}
+
+.CalcInput input{
+    width: 95%;
+    background-color: #202020;
+    color: #ffffff;
+    border: 0;
+    height: 50%;
+    outline-width: 0;
+    text-align: right;
+    font-size: larger;
+    padding: 0;
+}

@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="FestivalAdministration.Views.Program"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FestivalAdministration.Views"
+             xmlns:services="clr-namespace:FestivalAdministration.Services"
+             xmlns:viewModels="clr-namespace:FestivalAdministration.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance viewModels:ProgramViewModel}"
+             >
+    <UserControl.Resources>
+        <!--Stylesheet-->
+        <ResourceDictionary Source="../Common/Design.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        
+
+        <DataGrid 
+            ItemsSource="{Binding  Rows}" 
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            CellStyle="{StaticResource CellHighlighterStyle}" >
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}"></DataGridTextColumn>
+                <DataGridTextColumn Header="00" Binding="{Binding cells[0]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="01" Binding="{Binding cells[1]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="02" Binding="{Binding cells[2]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="03" Binding="{Binding cells[3]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="04" Binding="{Binding cells[4]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="05" Binding="{Binding cells[5]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="06" Binding="{Binding cells[6]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="07" Binding="{Binding cells[7]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="08" Binding="{Binding cells[8]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="09" Binding="{Binding cells[9]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="10" Binding="{Binding cells[10]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="11" Binding="{Binding cells[11]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="12" Binding="{Binding cells[12]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="13" Binding="{Binding cells[13]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="14" Binding="{Binding cells[14]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="15" Binding="{Binding cells[15]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="16" Binding="{Binding cells[16]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="17" Binding="{Binding cells[17]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="18" Binding="{Binding cells[18]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="19" Binding="{Binding cells[19]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="20" Binding="{Binding cells[20]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="21" Binding="{Binding cells[21]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="22" Binding="{Binding cells[22]}"></DataGridTextColumn>
+                <DataGridTextColumn Header="23" Binding="{Binding cells[23]}"></DataGridTextColumn>
+            </DataGrid.Columns>
+
+            
+        </DataGrid>
+
+    </Grid>
+
+</UserControl>

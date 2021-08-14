@@ -1,0 +1,29 @@
+Plán vývoje
+
+Stanovené termíny
+
+3.5 Vytvoření projektu a inicializace reactu
+
+18.3 Odevzdání plánu
+
+29.4 Odevzdání produktu
+
+21.5 Instalace produktu
+
+Přidělení úkolů na projektu
+
+Paralérně bude probíhat vývoj matematické knihovny a frontendu, nakonec proběhne integrace modulů.
+Vývoj Matematické knihovny řízený testy.
+Grafickou část aplikace bude mít převážně na starost Marie Koláríková.
+Profilingu se bude věnovat převážně Vojtěch kulíšek.
+Za matematickou kniihovnu bude převážně zodpovídat Pavel Šesták.
+Za javascriptovou(React) část projektu Lukáš Plevač.
+
+Přidělení úloh na projektu je flexibilní, v případě komplikací je možno reorganizovat.
+
+Komunikační kanály
+Jako komunikační kanály jsme si zvolili Messenger a Discord.
+
+
+Zvolený systém pro správu verzí a hosting
+Pro správu verzí jsme si zvolili git hostovaný na portálu GitLab.

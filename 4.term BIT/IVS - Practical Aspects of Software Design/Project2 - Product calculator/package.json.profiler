@@ -1,0 +1,96 @@
+{
+  "name": "but_fit_ivs",
+  "version": "0.1.0",
+  "license": "GPL-3.0",
+  "private": true,
+  "type": "module",
+  "homepage": "./",
+  "main": "public/electron.js",
+  "author": "Pavel Šesták <xsesta07@stud.fit.vutbr.cz>",
+  "contributors": [
+    {
+      "name": "Vojtěch Kulíšek",
+      "email": "xkulis03@stud.fit.vutbr.cz"
+    },
+    {
+      "name": "Lukáš Plevač",
+      "email": "xpleva07@stud.fit.vutbr.cz"
+    },
+    {
+      "name": "Marie Koláríková",
+      "email": "xkolar77@stud.fit.vutbr.cz"
+    }
+  ],
+  "description": "basic calculator",
+  "scripts": {
+    "start": "concurrently --kill-others \"wait-on http://localhost:3000 && electron . \" \"react-scripts start\"",
+    "build": "electron-icon-builder -i=./public/logo512.png -o=. -f && react-scripts build && electron-builder -mwl",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^12.8.1",
+    "concurrently": "^6.0.2",
+    "electron": "^12.0.5",
+    "electron-builder": "^22.10.5",
+    "electron-icon-builder": "^2.0.1",
+    "jsdoc": "^3.6.6",
+    "node": "^15.14.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "wait-on": "^5.3.0",
+    "web-vitals": "^1.1.1"
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0"
+  },
+  "build": {
+    "win": {
+      "target": [
+        "nsis",
+        "msi"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage",
+        "pacman"
+      ],
+      "category": "Utility"
+    },
+    "mac": {
+      "target": [
+        "zip"
+      ]
+    },
+    "directories": {
+      "buildResources": "icons/*"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ]
+  }
+}

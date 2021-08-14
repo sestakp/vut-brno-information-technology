@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="FestivalAdministration.Views.ListViews.StageListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:listViewModels="clr-namespace:FestivalAdministration.ViewModels.ListViewModels"
+             d:DataContext="{d:DesignInstance Type=listViewModels:StageListViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--Stylesheet-->
+        <ResourceDictionary Source="../../Common/Design.xaml" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="550*" />
+            <ColumnDefinition Width="200*" />
+            <ColumnDefinition Width="40*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15" />
+            <RowDefinition Height="55" />
+            <RowDefinition Height="15" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Style="{StaticResource ListLabel}" Grid.Row="0" Content="STAGE LIST" Grid.ColumnSpan="3"
+               Grid.RowSpan="3" />
+
+        <ListBox x:Name="stagesListBox" Grid.Row="3" ItemsSource="{Binding Stages}" Grid.ColumnSpan="3">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding StageSelected}" 
+                                           CommandParameter="{Binding ElementName=stagesListBox, 
+                        Path=SelectedItem}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                               Content="{Binding Name}" />
+                        <Image Grid.Column="1" Width="50"
+                               Source="{Binding ImagePath, Converter={StaticResource ImageConverter}}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Grid.Row="1" Grid.Column="1" Content="Add Stage" Command="{Binding StageNew}" />
+    </Grid>
+</UserControl>

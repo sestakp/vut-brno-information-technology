@@ -1,0 +1,3 @@
+Pri profilovani jsme zjistili, ze behove prostredi Node je velmi narocne a stravi se v nem vetsina
+vypocetniho casu. Pro profilování jsme použili sadu 10000 čisel v souboru numbers.in. Vypocet odchylky
+probiha v 1 milionu iteraci.
