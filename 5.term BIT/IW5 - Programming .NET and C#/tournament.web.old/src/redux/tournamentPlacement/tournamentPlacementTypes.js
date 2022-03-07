@@ -1,0 +1,8 @@
+const TournamentPlacementTypes = {
+    CREATE: "CREATE_TOURNAMENT_PLACEMENT",
+    DELETE: "DELETE_TOURNAMENT_PLACEMENT",
+    UPDATE: "UPDATE_TOURNAMENT_PLACEMENT",
+    FETCH: "FETCH_TOURNAMENT_PLACEMENT",
+  };
+
+export default TournamentPlacementTypes;

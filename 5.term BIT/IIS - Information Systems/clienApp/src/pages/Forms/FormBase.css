@@ -1,0 +1,44 @@
+
+form .MuiInputBase-root textarea{
+    border: 0;
+}
+
+form .react-datepicker-popper{
+    z-index: 999;
+}
+
+form .MuiFormControl-root label{
+    padding: 0 3px;
+    background-color: #fff;
+}
+.MuiFormLabel-root.Mui-focused{
+    color: #000 !important;
+}
+
+.dropZone {
+    border: 1px solid #000 !important;
+    border-radius: 4px;
+    margin: 0;
+}
+.dropZone * {
+    color: #000 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    form .MuiFormControl-root label{
+        background-color: #334155;
+        color: #fff;
+    }
+    .MuiAutocomplete-noOptions{
+        color: #fff !important;
+    }
+    .MuiFormLabel-root.Mui-focused{
+        color: #fff !important;
+    }
+    .dropZone {
+        border: 1px solid #fff !important;
+    }
+    .dropZone * {
+        color: #fff !important;
+    }
+}

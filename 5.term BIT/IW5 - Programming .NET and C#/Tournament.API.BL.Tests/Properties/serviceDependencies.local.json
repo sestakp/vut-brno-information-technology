@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/sqldb-iw5-2021-team0010/databases/db-iw5-2021-team0010",
+      "type": "mssql.azure",
+      "connectionId": "AzureDatabase"
+    },
+    "compute.appService1": {
+      "group": "connections",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/app-iw5-2021-team-0010-api",
+      "type": "compute.appService.windows"
+    }
+  }
+}

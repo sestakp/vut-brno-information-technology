@@ -1,0 +1,9 @@
+.RecordEditPanel{
+    /*background-color: #eee;*/
+    width: 100%;
+    font-weight: bold;
+}
+
+.sticky-offset {
+    top: 64px;
+}

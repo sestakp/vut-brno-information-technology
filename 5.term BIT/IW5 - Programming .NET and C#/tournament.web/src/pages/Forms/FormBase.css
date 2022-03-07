@@ -1,0 +1,16 @@
+.react-datepicker-popper{
+    z-index: 1999;
+}
+
+.detail-form{
+    background-color: white;
+    border-radius: 5px;
+}
+
+.btn-color{
+    background-color: rgba(255, 113, 30, 1) !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    -webkit-text-stroke: 0.1px black;
+}
+

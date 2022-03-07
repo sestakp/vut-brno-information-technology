@@ -1,0 +1,26 @@
+.cardWrapper{
+    margin: 10px;
+    border: 1px solid #666;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    height: 95%;
+}
+
+.unvalidCard{
+    filter: grayscale(1) brightness(0.5);
+    cursor: auto;
+}
+
+.activeCard{
+    border: 1px solid rgb(0, 0, 255);
+}
+@media (prefers-color-scheme: dark) {
+    .activeCard{
+        border: 1px solid rgb(0, 255, 255);
+    }
+}
+
+.card-body p {
+    padding:0;
+}

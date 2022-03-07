@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
+	  <UserSecretsId>2560304c-d865-4bfd-a62e-5f52b8eb6e8a</UserSecretsId>
+  </PropertyGroup>
+
+	<Target Name="CopyDepsJsonFiles" AfterTargets="Publish">
+		<ItemGroup>
+			<DepsJsonFiles Include="$(TargetDir)*.deps.json" />
+		</ItemGroup>
+		<Copy SourceFiles="@(DepsJsonFiles)" DestinationFolder="$(PublishDir)" />
+	</Target>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+	  <PackageReference Include="xunit" Version="2.4.1" />
+	  <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+	  </PackageReference>
+	  <PackageReference Include="coverlet.collector" Version="3.1.0">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.API.App\Tournament.API.App.csproj" />
+    <ProjectReference Include="..\Tournament.API.BL.Tests\Tournament.API.BL.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

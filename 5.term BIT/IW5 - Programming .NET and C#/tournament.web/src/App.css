@@ -1,0 +1,16 @@
+
+/*Restyle links*/
+a, a:hover, a:focus, a:active {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+a:hover{
+  text-decoration: underline !important;
+}
+
+p {
+  font-size: larger;
+  font-weight: bold;
+  color: black;
+}

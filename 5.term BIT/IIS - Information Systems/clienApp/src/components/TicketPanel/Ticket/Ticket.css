@@ -1,0 +1,8 @@
+a, a:active, a:hover{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+    font-weight: bold;
+}

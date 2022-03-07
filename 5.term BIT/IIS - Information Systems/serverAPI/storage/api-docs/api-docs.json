@@ -1,0 +1,102 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "eConference API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/conferences": {
+            "get": {
+                "tags": [
+                    "Conferences"
+                ],
+                "description": "Get all conference",
+                "operationId": "9248834754fa50ab8ece95ad1a5baffd",
+                "responses": {
+                    "200": {
+                        "description": "Get all conferences"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Conferences"
+                ],
+                "description": "Update conference",
+                "operationId": "ae9b3767bd609e0ebef86941f1f3e476",
+                "responses": {
+                    "200": {
+                        "description": "Update conference"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Conferences"
+                ],
+                "description": "Create conference",
+                "operationId": "18b4efe3851e3e62f66cf0912a867121",
+                "responses": {
+                    "200": {
+                        "description": "Create conference"
+                    }
+                }
+            }
+        },
+        "/api/presentations": {
+            "get": {
+                "tags": [
+                    "Presentations"
+                ],
+                "description": "Get all presentations",
+                "operationId": "63980d1119584fe6937190a20e8451f1",
+                "responses": {
+                    "200": {
+                        "description": "Get all presentations"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Presentations"
+                ],
+                "description": "Update presentation",
+                "operationId": "cfb2fe3de662ce515f28c33667d94424",
+                "responses": {
+                    "200": {
+                        "description": "Update presentation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Presentations"
+                ],
+                "description": "Create presentation",
+                "operationId": "36099ee2068324140d8bd8e4762b46e8",
+                "responses": {
+                    "200": {
+                        "description": "Create presentation"
+                    }
+                }
+            }
+        },
+        "/api/presentations/{id}": {
+            "get": {
+                "tags": [
+                    "Presentations"
+                ],
+                "description": "Update presentation",
+                "operationId": "2000e31159a6dd1e07c3d6be03a4155a",
+                "responses": {
+                    "200": {
+                        "description": "Update presentation"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

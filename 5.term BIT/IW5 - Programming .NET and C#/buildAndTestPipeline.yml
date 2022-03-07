@@ -1,0 +1,58 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  dotNetVersion: '6.0.x'
+
+steps:
+
+- task: UseDotNet@2
+  inputs:
+    version: $(dotNetVersion)
+    includePreviewVersions: true
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build .NET 6 Application'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+
+- task: PublishTestResults@2
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+    failTaskOnFailedTests: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+# this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'Tournament.API'
+
+
+#- task: AzureWebApp@1
+#  inputs:
+#    azureSubscription: 'connection-IW5'
+#    appType: 'webApp'
+#    appName: 'app-iw5-2021-team-0010-api'
+#    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+#    deploymentMethod: 'auto'
+

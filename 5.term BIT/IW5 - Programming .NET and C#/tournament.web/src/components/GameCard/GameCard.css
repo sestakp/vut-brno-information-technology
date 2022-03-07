@@ -1,0 +1,39 @@
+.GameCard{
+    display: flex;
+    align-items: center;
+    align-self: center;  
+    cursor: pointer;  
+    border:rgb(158, 158, 158) 1px solid;
+    margin:5px;
+    border-radius: 5px;
+}
+
+.checked{
+    border: 1px solid rgba(255, 113, 30, 1);
+}
+
+.teamLogo{
+    max-width: 100%;
+    height: auto;
+}
+
+.VersusPanel{
+    align-self: center;
+    text-align: center;
+    display: inline-flex;
+}
+
+.VersusPanel *{
+    padding: 5px;
+}
+
+.datePanel{
+    
+    align-self: flex-end;
+    text-align: center;
+}
+
+.TeamName{
+    font-weight: bold;
+    font-size: large;
+}

@@ -1,0 +1,32 @@
+.time-table{
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 5px;
+    display: block;
+}
+
+.time-table > h2{
+    color: #666666;
+    padding: 10px;
+    display: block;
+}
+
+.time-table th {
+    min-width: 100px;
+    border: #ccc solid 2px;
+    text-align: center;
+    
+}
+
+
+.time-table tr {
+    height: 50px;
+    border: #ccc solid 2px
+}
+
+.table-text{
+    color: rgb(255, 254, 254);
+    -webkit-text-stroke: 0.1px black;
+    padding: 5px;
+    background-color: rgba(255, 113, 30, 1);
+}

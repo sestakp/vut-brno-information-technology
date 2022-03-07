@@ -1,0 +1,155 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DECLARATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,english]{article}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+%\usepackage{babel}
+\usepackage[utf8]{inputenc} % set coding
+%\usepackage{czech}
+\usepackage[legalpaper, portrait, margin=0.8in]{geometry}
+\usepackage{fixltx2e}
+\usepackage{hyperref}
+\usepackage{textgreek}
+\usepackage{textcomp}
+\usepackage{adjustbox}
+\usepackage{float}
+\usepackage{tabto}
+\usepackage{amsmath}
+\newcommand\mytab{\tab \hspace{10mm}}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{url}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+\author{
+  Šesták, Pavel\\
+  \texttt{xsesta07@stud.fit.vutbr.cz}
+}
+
+\title{Dokumentace hry HAD}
+\date{12.11.2020}  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+  \begin{titlepage}
+		\begin{center}
+			%\textsc{\LARGE Vysoké Učení Technické v Brně} \\[0.5cm]
+			%{\LARGE Fakulta informačních technologií}
+
+			\begin{figure}
+				\center\includegraphics[scale=0.3]{images/logo.png}
+			\end{figure}
+
+			\vspace{3cm}
+
+			\textsc{\LARGE Mikroprocesorové a vestavěné systémy } \\[0.5cm]
+			\textsc{\LARGE 2020/2021} \\[3.5cm]
+
+			\textbf{\LARGE Dokumentace hry HAD} \\
+			\vspace{3cm}
+		    \vspace{3cm}
+		    
+		    {\Large Šesták Pavel(xsesta07)} \\[0.5cm]
+		    
+			
+			\vspace{3cm}
+                
+		    \textsc{}{\LARGE Brno, \today}
+
+		\end{center}
+	\end{titlepage}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONTENT TABLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+	\tableofcontents %content generate
+	\clearpage %end of page
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SECTIONS       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Úvod}
+Cílem tohoto projektu je vytvořit zjednodušenou verzi hry had na výukovém kitu Minerva s reprezentací na maticovém displeji. Pohyb hada po ploše je realizován díky hardwarovým tlačítkům dostupným na výukovém kitu. Zjednodušená verze hada umožňuje pohyb hada po bezbarierové herní ploše o velikosti 8*16. Had může přecházet z jedné strany herní plochy na druhou přes stěny herní plochy. Had se v průběhy hry zrychluje. V případě, že se had kousne, tak se hra automaticky restartuje a pípne bzučák.
+Demonstrační video k projektu je na adrese: \url{https://www.stud.fit.vutbr.cz/~xsesta07/Personal/projects/IMP\_snake/snake.php}
+
+\section{Implementace}
+\subsection{Makra}
+V rámci projektu byly definovány makra pro slovní zastoupení bitových pozic v rámci zdrojového textu pro lepší čitelnost. Jsou definovány pro tlačítka i piny pro obsluhu displeje. Dále jsou zde makra pro nastavení velikosti herního pole a délky hada.
+
+\subsection{Definované typy}
+V rámci projektu byla definovaná struktura Cell, která reprezentuje jednu buňku na displeji. Pro přehlednější práci s pohybem hada byl definován výčtový typ, reprezentující směr pohybu hada.
+\begin{lstlisting}[style=CStyle]
+typedef struct{
+	int col;
+	int row;
+} Cell;
+
+typedef enum { 
+    UP,
+    DOWN,
+    LEFT,
+	  RIGHT
+} Direction;
+
+\end{lstlisting}
+
+\subsection{Globální proměnné}
+Celkový stav hry je reprezentován globálními proměnnými. Dále mezi globálními proměnnými jsou i pomocná pole, která slouží pro iteraci, přes maticový displej a tlačítka pro jejich inicializaci a snížení redundance kódu.
+
+\begin{lstlisting}[style=CStyle]
+unsigned int compare; //Compare value for low power timer
+Direction direction; //Represent current direction of snake
+char currentCol = 0; //Represent index for column multiplexing
+Cell snake[SNAKE_LEN]; //Snake representation
+int head; //Index in array of snake head
+int gameRun; //indicate if is game, or game over 
+const unsigned int rows[8] = {ROW_0, ROW_1, ROW_2, ROW_3, ROW_4, ROW_5, ROW_6, ROW_7 }; //Rows on matrix display
+const unsigned int cols[4] = {COL_0, COL_1, COL_2, COL_3 }; //Columns on matrix display
+const unsigned int buttons[4] = { 10, 12, 27, 26 }; // Buttons to control snake
+\end{lstlisting}
+
+\subsection{Inicializace MCU}
+V rámci funkce MCUInit se nastaví parametry hodinového signálu a vypne se watchdog, který pro tuto aplikace nebudeme potřebovat. Dále se provede initializace portů na mikrokontroleru. V rámci inicializace se povolí hodinový signál pro port A a port E. Na portu A máme připojený maticový displej a na portu E jsou připojena tlačítka. Tlačítka nastavíme jako GPIO piny a zapneme jim pull-up rezistory na mikrokontroleru. Dále je nuntné povolit přerušení na portu E, pro odchyt stisknutí tlačítka. Dále nastavíme porty na portu A pro displej jako GPIO výstupní piny. V poslední řadě je portu A nastaven jako výstupní port 4 pro obsluhu bzučáku.
+
+\subsection{Inicializace časovače}
+Časovač je nastaven, aby generoval přerušení, které budeme v obslužné rutině obsluhovat. Před dělička je nastavena na 2.
+
+\subsection{Multiplexing maticového displeje}
+Rotace samotného displeje probíhá ve funkci rotateDisplay. Napřed se vyčistí output registr, dále se pro iteruje celý řádek v daném sloupci a zkontroluje se podmínkou, zda se na dané pozici nenachází had, v případě, že ano tak pomocí globálního pole rows se zapíše do výstupního registru. Následně se do output registru nastaví stávající index sloupce pomocí vzorce:\\
+GPIOA\_PDOR |= (currentCol & ( 1 << i )) >> i << cols[i]. V poslední řadě se zvýší index sloupce a spustí se delay pro další překreslení. Rychlá změna sloupce spolu se setrvačností lidského oka působí, že displej svítí.
+
+\subsection{Obsluha přerušení časovače pro posun hada}
+Nejprve se sníží počítadlo pro další vyvolání přerušení, to slouží pro průběžné zrychlování hada a zapíše se do clear příznaku, že bylo dané přerušení obslouženo. Nejnižší hodnota komparátoru je 0x20. Díky globálním proměnným snake a head získáme aktuální buňku, která reprezentuje hlavu hada. Na základě směru hada modifikujeme index sloupce či řádku. Tyto modifikace jsou implementovány v separátních funkcích a řeší přechody mezi stěnami. Dále se zkontroluje, zda na nové pozici hlavy již není jiná část hada, v případě ze ano došlo ke kolizi a hra je restartována. Restart je doprovázen zvukem bzučáku. V případě, že kolize nenastala tak se posune index hlavy na poslední článek hada a vloží se na jeho pozici nová hlava.
+
+\subsection{Obsluha přerušení tlačítek pro změnu směru hada}
+Obsluha přerušení tlačítek probíhá na portu E. Napřed spustíme delay, pro odfiltrování zákmitu na tlačítku. Dále se kontroluje přes ISFR registr jaké konkrétní tlačítko bylo stisknuto a zda je pořád stisknuto pomocí input registru. V případě shody se nastaví příslušný směr do globální proměnné direction. Následně se vyčistí příznaky přerušení.
+
+\newpage
+\section{Shrnutí}
+Při testování byl otestován průchod skrz hrany displeje a restart hry při "kousnutí" se hadem. Dále by bylo možné doimplementovat ovoce a na konci hry zobrazit na maticovém displeji skóre. Testováno bylo na poskytnutém kitu Minerva s dvojicí maticových displejů.
+\newpage
+\section{Použitá literatura}
+Při vypracovávání řešení bylo čerpáno z vlastních zdrojových textů napsaných v rámci laboratorních cvičeních. Dále bylo čerpáno z referenčního manuálu podrodiny K60 mikrokontrolerů od NXP dostupný na adrese: \url{https://www.ic-components.cz/files/ad/MK60FX512VMD12.pdf}. Dále bylo čerpáno ze schéma obvodového zapojení výukového kitu Minerva, který je dostupný na adrese: \url{https://wis.fit.vutbr.cz/FIT/st/cfs.php.cs?file=\%2Fcourse\%2FIMP-IT\%2Fexcs\%2FFITkit3-schema.pdf}. V poslední řadě pro ucelení informací byla využita prezentace k danému tématu od pana Ing. Václava Šimka Ph.D., který je i autorem tohoto zadání, dostupná na adrese: \\\url{https://wis.fit.vutbr.cz/FIT/st/cfs.php.cs?file=\%2Fcourse\%2FIMP-IT\%2Fprojects\%2FIMP\_projekt+-+had.pdf}.
+
+\end{document}

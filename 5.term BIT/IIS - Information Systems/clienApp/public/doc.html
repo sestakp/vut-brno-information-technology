@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-2">
+    <meta charset="utf-8" />
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte pros�m nastaven� k�dov�n� v hlavi�ce dokumentu 
+     podle pou�it�ho editoru -->
+
+<h1>Konference: správa událostí, prezentací a účastníků</h1> <!-- Nahradte n�zvem sv�ho zad�n� -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Pavel Šesták
+	    <a href="mailto:xsesta07@stud.fit.vutbr.cz">xsesta07@stud.fit.vutbr.cz</a> -
+		Návrh architektury, implementace
+	</dd>
+	<dd>Vojtěch Kulíšek
+	    <a href="mailto:xkulis03@stud.fit.vutbr.cz">xkulis03@stud.fit.vutbr.cz</a> - 
+		Implementace a kompletní testování systému
+	</dd>
+  <dd>Lukáš Plevač
+	    <a href="mailto:xpleva07@stud.fit.vutbr.cz">xpleva07@stud.fit.vutbr.cz</a> - 
+		Implementace, serverová část řešení a git
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xsesta07/IIS">http://www.stud.fit.vutbr.cz/~xsesta07/IIS</a></dd>
+	<dd><a href="https://iis.plevac.eu">https://iis.plevac.eu (API only)</a></dd>
+	<dd><a href="http://plevac.eu:8812/api/documentation">http://plevac.eu:8812/api/documentation (Swagger interactive documentation)</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uživatelé pro testování <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin@admin.cz</td><td>administrator</td><td>Administrátor</td></tr>
+<tr><td>user@user.cz</td><td>uzivatel</td><td>uživatel</td></tr>
+</tbody></table>
+
+<h2>Diagram případů užití</h2>
+
+<img src="./useCase.png" alt="use case" style="width: 80%; margin: auto;">
+
+<h2>Entity-relationship diagram</h2>
+<img src="./erd.png" alt="erd" style="width: 80%; margin: auto;">
+
+
+<h2>Implementace</h2>
+<h3>Backend API</h3>
+Veškerá logika implemetující jednotlivé případy užití je ve složce serverAPI\app\Http\Controllers. 
+Jednotlivé kontrolery pracují s modely ve složce serverAPI\app\Models. Dále v projektu byly využity migrace, která se nachází
+ve složce serverAPI\database\migrations. Endpointy API jsou definované v souboru serverApi\routes\api.php.
+Z důvodu rozdělení aplikace na dvě separátní části, bylo nutné řešit i nastavení CORS. Dále bylo potřeba nastavit sessions, kde byly zapnuty 
+možnosti: secure, http_only a same_site bylo nastaveno na none.
+
+<h3>React.JS frontend</h3>
+React projekt byl vygenerován s šablonou dostupnout na adrese: https://www.npmjs.com/package/cra-template-laravel-auth pod MIT licencí.
+Komunikace s API na straně frontendu je pomocí klientů implmenetovaných 
+pomocí knihovny Axios ve složce clientApp\src\api. Stav aplikace je uchováván pomocí knihovny Redux. Redux definuje akce, přes které 
+provolává klienty a ukládá změny do centrálního stavu aplikace. Jednotlivé pohledy či komponenty přistupují k centrálnímu stavovému prostoru 
+přes selektory. V případě, že se změní centrální stav, tak veškerým závislím komponentám se změní závislosti a dojde k překreslení. Jednotlivé
+pohledy systému jsou v rámci složky ClientApp\src\pages. Tyto pohledy se skládají z komponent, které jsou definované v ClientApp\src\components.
+Složka utils obsahuje pomocné skripty. V podsložce renderLibraries je implementovaná baseRenderLibrary, 
+která generuje formuláře a detaily z JSON konfigurací jednotlivých modelů. Routes definují jednotlivé endpointy frontendu a nastavují, které jsou veřejně
+dostupné a které jsou pouze pro autorizované uživatele.
+
+
+<h3>Databáze</h3>
+<img src="./dbSchema.png" alt="db schema" style="width: 80%; margin: auto;">
+
+<h2>Instalace</h2>
+
+<h3>backend (API)</h3>
+
+<h4>Verze pro docker</h4>
+<ul>
+	<li>ve složce serverAPI</li>
+	<li>Závislosti: docker, docker-compose</li>
+	<li>konfigurace je v .env souboru a dodatečných php souborech ve složce configs</li>
+	<li>Je nutné nakonfigurovat smpt server pro emaily, nastavené mysql, nastavené domény serveru</li>
+	<li>Ukázka konfigurace v .evn.release a .env.example</li>
+	<li>Pro testy make api-dev-up v rootu projektu (.env.example)</li>
+	<li>Pro nasazení make api-dev-up v rootu projektu (.evn.release)</li>
+	<li>Následně je nutné provést migrace make api-migate</li>
+</ul>
+
+<h4>Verze bez dockeru</h4>
+Jelikož každý má různou konfiguraci, tak je výrazně doporučeno použít verzi pro docker pro hladké spuštění. 
+Jedná se komplexní systém a mohou se vyskytnout komplikace.
+<ul>
+	<li>ve složce serverAPI</li>
+	<li>Závislosti: composer, mysql-server, php8.0 s extensions</li>
+	<li>konfigurace je v .env souboru a dodatečných php souborech ve složce configs</li>
+	<li>Je nutné nakonfigurovat smpt server pro emaily, nastavené mysql, nastavené domény serveru</li>
+	<li>Ukázka konfigurace v .evn.release a .env.example</li>
+	<li>Napřed je nutné provést composer install</li>
+	<li>V konfiguraci PHP8.0 je nutné povolit extesnion PDO a MySQL</li>
+	<li>Následně je nutné vygenerovat klíče: php artisan key:generate</li>
+	<li>Další bod očekává vytvořenou prázdnou databázi podle specifikace v .env souboru</li>
+	<li>Provedeme migraci: php artisan migrate</li>
+	<li>Projekt bz měl být přípravem na spuštění příkazem: php artisan serve</li>
+</ul>
+
+<h3>frontend</h3>
+
+<ul>
+	<li>ve složce clienApp</li>
+	<li>Závislosti: nodejs, npm</li>
+	<li>konfigurace je v .env souboru je nutné nakonfigurovat adresu API serveru</li>
+	<li>pro instalaci závislosti je nutné spustit npm install</li>
+	<li>pro spuštení vývojářské verze npm start</li>
+	<li>pro build do js, css a html příkaz npm run build</li>
+</ul>
+
+<h2>Rozšíření nad rámec zadání</h2>
+<h3>Časový rozvrh místnosti</h3>
+Nad rámec zadání IIS jsme se rozhodli implementovat časový rozvrh v detailním pohledu na místnost, 
+které zobrazuje pouze potvrzené prezentace v dané místnosti.
+
+<h3>Stream prezentace</h3>
+V rámci aplikace je možné vložit odkaz na stream přes platformu youtube či twitch, v případě, že uživatel má zakoupený lístek, 
+popřípadě je vlastník nebo admin,
+tak se mu v rámci detailního pohledu prezentace přes youtube / twitch API zobrazí live stream.
+
+<h2>Známé chyby</h2>
+Nepodařilo se nám správně rozchodit odesílání emailů uživatelům (Email dojde, nicméně link není validní).
+
+</body>
+</html>
