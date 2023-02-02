@@ -1,0 +1,28 @@
+#### Stručně odpovězte na následující otázky: ######
+
+1. Proč je nutné určovat, zda má výpočet pokračovat?
+==============================================================================
+Je potřeba mít specifikovaný limit. jinak by se mohl výpočet zacyklit uvnitř Mandelbrotovy množiny (na obrázku bílá část). Pro jednotlivé pixely je nutné končit u nalezení hranice, jinak by výsledek nebyl korektní.
+Jelikož i v další iteraci by součet mohl být větší jak 4 a my by jsme si přepsali náš nalezený limit, který byl ve skutečnosti menší.
+
+2. Byla "Line" vektorizace efektivní? Proč?
+==============================================================================
+Mnoho hodnot jsme počítali zbytečně z důvodu, že na stejném řádku byla hodnota uvnitř množiny a tak se celý řádek musel počítat limit krát. Navíc zvolením menší podčásti jsme zlepšili přístupový vzor do paměti a nevypadávali jsem tak často z cache.
+
+3. Jaká byla dosažena výkonnost v Intel Advisoru pro jednotlivé implementace 
+(v GFLOPS)?
+==============================================================================
+Program metrics GFLOPS: Ref     2.21 (Peak v roofline grafu 0.71)
+Program metrics GFLOPS: Line    35.91 (Peak v roofline grafu 43.6)
+Program metrics GFLOPS: Batch   31.43 (Peak v roofline grafu 79.6)
+
+4. Jaká část kódu byla vektorizována v "Line" implementaci? Vyčteme tuto 
+informaci i u batch kalkulátoru?
+==============================================================================
+Všechny for smyčky s pragmou omp simd. Vektorizována část pro iterativní výpočet hranice limitu. Pomocí souborů *.optrpt jsem si ověřil, že smyčky byly opravdu vektorizovány.
+
+5. Co vyčteme z Roofline modelu pro obě vektorizované implementace?
+==============================================================================
+Že vektorizace nás posunula směrem k pravému hornímu rohu. Zvýšila se nám performance (GFLOPS) i počet operací na byte.
+
+
