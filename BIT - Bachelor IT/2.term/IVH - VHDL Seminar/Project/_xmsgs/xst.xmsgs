@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">54</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">56</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">69</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">74</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">83</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">87</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">102</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">104</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">108</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">134</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">142</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">148</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">156</arg>. Wait for statement unsupported.
+</msg>
+
+<msg type="error" file="HDLParsers" num="1015" delta="new" >&quot;<arg fmt="%s" index="1">C:/Documents and Settings/student/Plocha/spi_news_tb_vk.vhd</arg>&quot; Line <arg fmt="%d" index="2">164</arg>. Wait for statement unsupported.
+</msg>
+
+</messages>
+
