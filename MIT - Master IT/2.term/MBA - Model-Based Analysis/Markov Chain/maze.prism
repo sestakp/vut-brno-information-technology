@@ -1,0 +1,145 @@
+// MBA 2022/2023
+
+dtmc
+
+//  5 |         .e...
+//  4 | ....  . .   .
+//  3 | .  .  . .   .
+//  2 | . .s..s.s.. .
+//  1 | e  .  . . ...
+//  0 | ....  ...    
+//  y ---------------
+//    x 0123456789012
+
+
+// macro evaluated to true when it is possible to go up
+formula u = (x=0&y=0)|(x=3&y=0)|(x=6&y=0)|(x=8&y=0)|(x=10&y=0)|(x=11&y=0)|(x=12&y=0)|(x=0&y=1)|(x=2&y=1)|(x=3&y=1)|(x=4&y=1)|(x=5&y=1)|(x=6&y=1)|(x=7&y=1)|(x=8&y=1)|(x=9&y=1)|(x=10&y=1)|(x=12&y=1)|(x=0&y=2)|(x=3&y=2)|(x=6&y=2)|(x=8&y=2)|(x=12&y=2)|(x=0&y=3)|(x=1&y=3)|(x=2&y=3)|(x=3&y=3)|(x=6&y=3)|(x=8&y=3)|(x=12&y=3)|(x=8&y=4)|(x=9&y=4)|(x=10&y=4)|(x=11&y=4)|(x=12&y=4);
+
+// macro evaluated to true when it is possible to go right
+formula r = (x=0&y=0)|(x=1&y=0)|(x=2&y=0)|(x=5&y=0)|(x=6&y=0)|(x=7&y=0)|(x=2&y=1)|(x=5&y=1)|(x=7&y=1)|(x=9&y=1)|(x=10&y=1)|(x=11&y=1)|(x=1&y=2)|(x=2&y=2)|(x=3&y=2)|(x=4&y=2)|(x=5&y=2)|(x=6&y=2)|(x=7&y=2)|(x=8&y=2)|(x=9&y=2)|(x=11&y=2)|(x=2&y=3)|(x=5&y=3)|(x=7&y=3)|(x=11&y=3)|(x=0&y=4)|(x=1&y=4)|(x=2&y=4)|(x=5&y=4)|(x=7&y=4)|(x=11&y=4)|(x=7&y=5)|(x=8&y=5)|(x=9&y=5)|(x=10&y=5)|(x=11&y=5);
+
+// macro evaluated to true when it is possible to go down
+formula d = (x=0&y=1)|(x=1&y=1)|(x=2&y=1)|(x=3&y=1)|(x=6&y=1)|(x=7&y=1)|(x=8&y=1)|(x=0&y=2)|(x=3&y=2)|(x=6&y=2)|(x=8&y=2)|(x=10&y=2)|(x=11&y=2)|(x=12&y=2)|(x=0&y=3)|(x=2&y=3)|(x=3&y=3)|(x=4&y=3)|(x=5&y=3)|(x=6&y=3)|(x=7&y=3)|(x=8&y=3)|(x=9&y=3)|(x=10&y=3)|(x=12&y=3)|(x=0&y=4)|(x=3&y=4)|(x=6&y=4)|(x=8&y=4)|(x=12&y=4)|(x=0&y=5)|(x=1&y=5)|(x=2&y=5)|(x=3&y=5)|(x=6&y=5)|(x=8&y=5)|(x=12&y=5);
+
+// macro evaluated to true when it is possible to go left
+formula l = (x=1&y=0)|(x=2&y=0)|(x=3&y=0)|(x=4&y=0)|(x=7&y=0)|(x=8&y=0)|(x=9&y=0)|(x=1&y=1)|(x=4&y=1)|(x=7&y=1)|(x=9&y=1)|(x=11&y=1)|(x=12&y=1)|(x=1&y=2)|(x=3&y=2)|(x=4&y=2)|(x=5&y=2)|(x=6&y=2)|(x=7&y=2)|(x=8&y=2)|(x=9&y=2)|(x=10&y=2)|(x=11&y=2)|(x=1&y=3)|(x=4&y=3)|(x=7&y=3)|(x=9&y=3)|(x=1&y=4)|(x=2&y=4)|(x=3&y=4)|(x=4&y=4)|(x=7&y=4)|(x=9&y=4)|(x=9&y=5)|(x=10&y=5)|(x=11&y=5)|(x=12&y=5);
+
+// target cells
+formula exit = (x=0&y=1) | (x=9&y=5);
+
+
+// synchronization module: place - steer-drive - steer-drive - ...
+module clk
+    clk : [-1..2] init -1;
+    [place] clk=-1 -> (clk'=0);
+    [steer] clk=0 -> (clk'=1);
+    [drive] clk=1 -> (clk'=0);
+endmodule
+
+
+// names for four principal directions
+const int up = 0;
+const int right = 1;
+const int down = 2;
+const int left = 3;
+
+// macros encoding movement in the selected direction or bumping into a wall
+formula yu = u ? (y+1) : y;
+formula xr = r ? (x+1) : x;
+formula yd = d ? (y-1) : y;
+formula xl = l ? (x-1) : x;
+
+module maze
+    x : [-1..12];
+    y : [-1..5];
+
+    // random placement
+    [place] true -> 1/3:(x'=3)&(y'=2) + 1/3:(x'=6)&(y'=2) + 1/3:(x'=8)&(y'=2);
+
+    // (DEBUG) deterministic placement
+    //[place] true -> (x'=6)&(y'=2);
+
+    // moving in the direction selected by the controller
+    [drive] dir=up    -> 0.9: (y'=yu) + 0.1: (x'=xl);
+    [drive] dir=right -> 0.9: (x'=xr) + 0.1: (y'=yu);
+    [drive] dir=down  -> 0.9: (y'=yd) + 0.1: (x'=xr);
+    [drive] dir=left  -> 0.9: (x'=xl) + 0.1: (y'=yd);
+    
+    // (DEBUG) deterministic movement
+    //[drive] dir=up    -> (y'=yu);
+    //[drive] dir=right -> (x'=xr);
+    //[drive] dir=down  -> (y'=yd);
+    //[drive] dir=left  -> (x'=xl);
+endmodule
+
+
+module controller
+    // steering direction
+    dir : [0..3];
+
+     //sample strategy 1: alternate between steering down and left
+     //steering_down : bool init false;
+     //[steer] steering_down -> (dir'=down) & (steering_down'=false);
+     //[steer] !steering_down -> (dir'=left) & (steering_down'=true);
+
+    // sample strategy 2: steer up if possible, otherwise steer randomly left/right
+    // [steer] u -> (dir'=up);
+    // [steer] !u -> 1/2:(dir'=left) + 1/2:(dir'=right);
+	
+    // TODO your strategy
+    
+    //random strategy
+    //[steer] !exit -> 1/4:(dir'=left) + 1/4:(dir'=right) + 1/4:(dir'=up) + 1/4:(dir'=down);
+
+    //A strategy that tries to choose the best moves
+    
+    steering : [0..3];
+    leftPlacement: bool init false;
+    middlePlacement: bool init false;
+    leftCorner: bool init false;
+
+    [steer] !exit & u & r & l & d & !(steering=down) & !leftPlacement -> (dir'=up) & (steering'=up);
+    [steer] !exit & u & r & l & d & (steering=down) & !leftPlacement ->  (dir'=right) & (steering'=right);
+    [steer] !exit & u & r & l & d & leftPlacement ->  (dir'=down) & (steering'=down);
+
+    [steer] !exit & l & d & !u & !r & (steering=up) -> (dir'=left) & (steering'=left);
+    [steer] !exit & l & d & !u & !r & (steering=right)-> (dir'=down) & (steering'=down);
+    [steer] !exit & l & d & !u & !r & !(steering=right) & !(steering=up)-> (dir'=left) & (steering'=left);
+
+    [steer] !exit & r & d & !u & !l & (steering=up) ->  (dir'=right) & (steering'=right) & (leftCorner'=true);
+    [steer] !exit & r & d & !u & !l & (steering=left) -> (dir'=down) & (steering'=down) & (leftCorner'=true);
+    [steer] !exit & r & d & !u & !l & !(steering=up) & !(steering=left)-> (dir'=right) & (steering'=right) & (leftCorner'=true);
+
+    [steer] !exit & r & l & !u & !d & (steering=left) & !leftPlacement & !leftCorner-> (dir'=left);
+    [steer] !exit & r & l & !u & !d & (steering=right) & !leftPlacement & !leftCorner ->  (dir'=right);
+    [steer] !exit & r & l & !u & !d & (steering=up) & !leftPlacement & !leftCorner ->  (dir'=right);
+    [steer] !exit & r & l & !u & !d & (steering=down) & !leftPlacement & !leftCorner ->  (dir'=right);  
+    [steer] !exit & r & l & !u & !d & leftPlacement & !leftCorner ->  (dir'=left) & (steering'=left); 
+    [steer] !exit & r & l & !u & !d & leftCorner ->  (dir'=left) & (steering'=left);   
+
+    [steer] !exit & u & d & !l & !r &  (steering=down)-> (dir'=down);
+    [steer] !exit & u & d & !l & !r &  (steering=up)-> (dir'=up);
+    [steer] !exit & u & d & !l & !r & !(steering=down) & !(steering=up) & !middlePlacement -> (dir'=up) & (steering'=up);
+    [steer] !exit & u & d & !l & !r & !(steering=down) & !(steering=up) & middlePlacement -> (dir'=down) & (steering'=down);
+
+    [steer] !exit & u & l & !d & !r & (steering=down) -> (dir'=left) & (steering'=left);
+    [steer] !exit & u & l & !d & !r & (steering=right) -> (dir'=up) & (steering'=up);
+    [steer] !exit & u & l & !d & !r & (steering=left) -> (dir'=left);
+    [steer] !exit & u & l & !d & !r & (steering=up)-> (dir'=up) & (steering'=up);
+
+    [steer] !exit & u & r & !d & !l & (steering=down) -> (dir'=right) & (steering'=right);
+    [steer] !exit & u & r & !d & !l & (steering=left) -> (dir'=up) & (steering'=up);
+    [steer] !exit & u & r & !d & !l & !(steering=down) & !(steering=left)-> (dir'=up) & (steering'=up);
+    
+    [steer] !exit & d & !u & !r & !l-> (dir'=down) & (steering'=down) & (middlePlacement'=true);
+
+    [steer] !exit & l & !u & !r & !d -> (dir'=left) & (steering'=left);
+
+    [steer] !exit & r & !u & !d & !l-> (dir'=right) & (steering'=right) & (leftPlacement'=true);
+
+    [steer] !exit & u & !d & !r & !l->  (dir'=up) & (steering'=up);
+endmodule
+
+rewards "steps"
+    [drive] true : 1;
+endrewards

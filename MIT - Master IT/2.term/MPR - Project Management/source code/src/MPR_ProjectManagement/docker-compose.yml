@@ -1,0 +1,214 @@
+version: "3.3"
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq/
+        - rabbitmq_log:/var/log/rabbitmq/
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana:/var/lib/grafana
+
+  prometheus:
+    image: prom/prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=720h'
+    volumes:
+      - ./prometheus:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      
+  # START OF DEFINING DATABASES
+  projectsMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - projectsmongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=ProjectsDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-256
+
+  risksMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
+    volumes:
+      - risksmongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=RisksDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-25
+
+  projectPhasesMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27019:27017"
+    volumes:
+      - projectphasesmongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=ProjectPhasesDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-256
+
+  opportunityMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27020:27017"
+    volumes:
+      - opportunityMongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=OpportunitiesDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-256
+
+  riskTemplateMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27021:27017"
+    volumes:
+      - risktemplatemongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=RiskTemplatesDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-256
+
+  usersMongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27022:27017"
+    volumes:
+      - usersmongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=UsersDB
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_AUTH_MECHANISM=SCRAM-SHA-256
+  
+  # END OF DEFINING DATABASES
+
+  # START OF DEFINING MICROSERVICES
+  opportunities-microservice:
+    image: opportunities-microservice
+    build:
+      context: .
+      dockerfile: OpportunitiesMicroservice/Dockerfile
+    ports:
+        - 32780:80
+    restart: unless-stopped
+
+  project-phases-microservice:
+    image: project-phases-microservice
+    build:
+      context: .
+      dockerfile: ProjectPhasesMicroservice/Dockerfile
+    ports:
+        - 32781:80
+    restart: unless-stopped
+
+  projects-microservice:
+    image: projects-microservice
+    build:
+      context: .
+      dockerfile: ProjectsMicroservice/Dockerfile
+    ports:
+        - 32782:80
+    restart: unless-stopped
+
+  risks-microservice:
+    image: risks-microservice
+    build:
+      context: .
+      dockerfile: RisksMicroservice/Dockerfile
+    ports:
+        - 32783:80
+    restart: unless-stopped
+
+  risk-templates-microservice:
+    image: risk-templates-microservice
+    build:
+      context: .
+      dockerfile: RiskTemplatesMicroservice/Dockerfile
+    ports:
+        - 32784:80
+    restart: unless-stopped
+
+  api-gateway:
+    image: api-gateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+        - 32785:80
+    restart: unless-stopped
+ 
+  employees-microservice:
+    image: employees-microservice
+    build:
+      context: .
+      dockerfile: EmployeesMicroservice/Dockerfile
+    ports:
+        - 32786:80
+    #This one fails on something other than rabbitMQ 
+    #restart: unless-stopped
+ 
+  
+  svelte-client:
+    image: svelte-client
+    build:
+      context: .
+      dockerfile: ../client/Dockerfile
+    ports:
+        - 80:80
+
+  # END OF DEFINING MICROSERVICES
+  
+volumes:
+  projectsmongo_data:
+  risksmongo_data:
+  projectphasesmongo_data:
+  opportunityMongo_data:
+  risktemplatemongo_data:
+  usersmongo_data:
+  logincheckermongo_data:
+  rabbitmq_data:
+  rabbitmq_log:
+  grafana:
+  

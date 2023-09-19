@@ -1,1 +1,0 @@
-main = do putStrLn "Hello world from Haskell command line"

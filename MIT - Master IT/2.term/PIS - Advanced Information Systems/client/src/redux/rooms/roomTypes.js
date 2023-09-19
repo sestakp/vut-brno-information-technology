@@ -1,0 +1,14 @@
+import getBaseTypes from "../base/TypeBase";
+
+let roomTypes = getBaseTypes("ROOM");
+
+roomTypes.SET_NEW_ROOM_FIELD = "SET_NEW_ROOM_FIELD";
+roomTypes.RESET_NEW_ROOM_FIELD = "RESET_NEW_ROOM_FIELD";
+roomTypes.ADD_ADULT_NEW_ROOM = "ADD_ADULT_NEW_ROOM";
+roomTypes.REMOVE_ADULT_NEW_ROOM = "REMOVE_ADULT_NEW_ROOM";
+roomTypes.ADD_CHILD_NEW_ROOM = "ADD_CHILD_NEW_ROOM";
+roomTypes.REMOVE_CHILD_NEW_ROOM = "REMOVE_CHILD_NEW_ROOM";
+roomTypes.ADD_SERVICE_NEW_ROOM = "ADD_SERVICE_NEW_ROOM";
+roomTypes.REMOVE_SERVICE_NEW_ROOM = "REMOVE_SERVICE_NEW_ROOM";
+roomTypes.ROOM_RESET = "ROOM_RESET"
+export default roomTypes;

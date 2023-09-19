@@ -1,0 +1,6 @@
+test_name           test_description
+test_param_i        test pouze vypise zadanou vstupni krivku na stdout
+test_param_k        test pro zadanou krivku vygeneruje par klicu
+test_param_s        est vytvori podpis hashe
+test_param_v        test overi podpis
+test_param_v_fail   Test, ktery selze pro overeni jelikoz doslo k uprave hodnoty v hashy  

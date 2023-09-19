@@ -1,0 +1,20 @@
+.addIcon {
+    position: absolute;
+    top: 80px;
+    right: 30px;
+    font-weight: 900;
+    padding: 4px;
+    background-color: lightgray;
+    border: 3px black solid;
+    border-radius: 20px;
+}
+
+.refreshIcon {
+    position: relative;
+    z-index: 20;
+    float: right;
+    margin-top: 17px;
+    margin-right: 17px;
+    margin-bottom: 10px;
+    cursor: help;
+}

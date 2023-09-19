@@ -1,0 +1,374 @@
+image: alpine:3.17.3
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - deploy
+
+# build all microservices
+
+ProjectsMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "ProjectsMicroservice"
+    BUILD_IMAGE_NAME: "projects-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+    
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+RisksMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "RisksMicroservice"
+    BUILD_IMAGE_NAME: "risks-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+ApiGateway:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "ApiGateway"
+    BUILD_IMAGE_NAME: "api-gateway"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+RiskTemplatesMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "RiskTemplatesMicroservice"
+    BUILD_IMAGE_NAME: "risk-templates-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+EmployeesMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "EmployeesMicroservice"
+    BUILD_IMAGE_NAME: "employees-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+OpportunitiesMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "OpportunitiesMicroservice"
+    BUILD_IMAGE_NAME: "opportunities-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+ProjectPhasesMicroservice:
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "ProjectPhasesMicroservice"
+    BUILD_IMAGE_NAME: "project-phases-microservice"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/$MICROSERVICE_NAME mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/Common mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv $MICROSERVICE_NAME/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+SvelteClient:
+  image: node:19.8.1-alpine3.17
+  stage: build
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+    MICROSERVICE_NAME: "SvelteClient"
+    BUILD_IMAGE_NAME: "svelte-client"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@build-pool "
+      rm -r ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+      echo 'docker system prune -af --filter "until=$((24))h"' | bash"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    - cd src/client
+    - npm install
+    - npm run build
+    - cd ..
+    - ssh -o StrictHostKeyChecking=no -i ../gitlab mprcontainer@build-pool "cd ~/build/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ../gitlab -r ./client mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+    - ssh -o StrictHostKeyChecking=no -i ../gitlab mprcontainer@build-pool
+      "cd ~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID &&
+       mv client/Dockerfile . &&
+       docker build --tag $BUILD_IMAGE_NAME:$CI_PIPELINE_IID --target final . &&
+       docker save $BUILD_IMAGE_NAME:$CI_PIPELINE_IID | gzip > '$MICROSERVICE_NAME'.tar.gz &&
+       docker rmi $BUILD_IMAGE_NAME:$CI_PIPELINE_IID"
+    - cd ..
+    - mkdir images
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r mprcontainer@build-pool:~/build/$MICROSERVICE_NAME-$CI_PIPELINE_IID/$MICROSERVICE_NAME.tar.gz ./images/$MICROSERVICE_NAME.tar.gz
+
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd ~/jobs-artifacts/ && mkdir $MICROSERVICE_NAME-$CI_PIPELINE_IID"
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./images mprcontainer@$DEPLOY_SERVER:~/jobs-artifacts/$MICROSERVICE_NAME-$CI_PIPELINE_IID
+
+# deploy all microservices
+
+deploy-job:
+  stage: deploy
+  environment: production
+  dependencies:
+    - ProjectsMicroservice
+    - RisksMicroservice
+    - ApiGateway
+    - RiskTemplatesMicroservice
+    - EmployeesMicroservice
+    - OpportunitiesMicroservice
+    - ProjectPhasesMicroservice
+    - SvelteClient
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "."
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "test-server-1"'
+  before_script:
+    - apk add --no-cache openssh-client
+    - apk add --no-cache curl
+    - apk add bash
+  after_script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER "cd images && rm -r *"
+  script:
+    - if [ $CI_COMMIT_REF_NAME = "main" ]; then DEPLOY_SERVER="172.16.1.1"; else DEPLOY_SERVER="172.16.1.2"; fi
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - chmod 600 ./gitlab
+    
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER
+      "cp ~/jobs-artifacts/ProjectsMicroservice-$CI_PIPELINE_IID/images/ProjectsMicroservice.tar.gz ~/images/ProjectsMicroservice.tar.gz &&
+       cp ~/jobs-artifacts/RisksMicroservice-$CI_PIPELINE_IID/images/RisksMicroservice.tar.gz ~/images/RisksMicroservice.tar.gz &&
+       cp ~/jobs-artifacts/RiskTemplatesMicroservice-$CI_PIPELINE_IID/images/RiskTemplatesMicroservice.tar.gz ~/images/RiskTemplatesMicroservice.tar.gz &&
+       cp ~/jobs-artifacts/ApiGateway-$CI_PIPELINE_IID/images/ApiGateway.tar.gz ~/images/ApiGateway.tar.gz &&
+       cp ~/jobs-artifacts/SvelteClient-$CI_PIPELINE_IID/images/SvelteClient.tar.gz ~/images/SvelteClient.tar.gz &&
+       cp ~/jobs-artifacts/EmployeesMicroservice-$CI_PIPELINE_IID/images/EmployeesMicroservice.tar.gz ~/images/EmployeesMicroservice.tar.gz &&
+       cp ~/jobs-artifacts/OpportunitiesMicroservice-$CI_PIPELINE_IID/images/OpportunitiesMicroservice.tar.gz ~/images/OpportunitiesMicroservice.tar.gz &&
+       cp ~/jobs-artifacts/ProjectPhasesMicroservice-$CI_PIPELINE_IID/images/ProjectPhasesMicroservice.tar.gz ~/images/ProjectPhasesMicroservice.tar.gz"
+
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/docker-compose.yml mprcontainer@$DEPLOY_SERVER:~/docker-compose.yml
+    - scp -o StrictHostKeyChecking=no -i ./gitlab -r ./src/MPR_ProjectManagement/prometheus.yml mprcontainer@$DEPLOY_SERVER:~/prometheus.yml
+    - ssh -o StrictHostKeyChecking=no -i ./gitlab mprcontainer@$DEPLOY_SERVER
+      "export MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME &&
+       export MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD &&
+       docker-compose down &&
+       cd images &&
+       docker load < ProjectsMicroservice.tar.gz &&
+       docker load < RisksMicroservice.tar.gz &&
+       docker load < RiskTemplatesMicroservice.tar.gz &&
+       docker load < ApiGateway.tar.gz &&
+       docker load < SvelteClient.tar.gz &&
+       docker load < EmployeesMicroservice.tar.gz &&
+       docker load < OpportunitiesMicroservice.tar.gz &&
+       docker load < ProjectPhasesMicroservice.tar.gz &&
+       docker rmi projects-microservice:latest &&
+       docker rmi risks-microservice:latest &&
+       docker rmi api-gateway:latest &&
+       docker rmi risk-templates-microservice:latest &&
+       docker rmi svelte-client:latest &&
+       docker rmi employees-microservice:latest &&
+       docker rmi opportunities-microservice:latest &&
+       docker rmi project-phases-microservice:latest &&
+       docker tag projects-microservice:$CI_PIPELINE_IID projects-microservice:latest &&
+       docker tag risks-microservice:$CI_PIPELINE_IID risks-microservice:latest &&
+       docker tag api-gateway:$CI_PIPELINE_IID api-gateway:latest &&
+       docker tag risk-templates-microservice:$CI_PIPELINE_IID risk-templates-microservice:latest &&
+       docker tag svelte-client:$CI_PIPELINE_IID svelte-client:latest &&
+       docker tag employees-microservice:$CI_PIPELINE_IID employees-microservice:latest &&
+       docker tag opportunities-microservice:$CI_PIPELINE_IID opportunities-microservice:latest &&
+       docker tag project-phases-microservice:$CI_PIPELINE_IID project-phases-microservice:latest &&
+       docker rmi projects-microservice:$CI_PIPELINE_IID &&
+       docker rmi risks-microservice:$CI_PIPELINE_IID &&
+       docker rmi api-gateway:$CI_PIPELINE_IID &&
+       docker rmi risk-templates-microservice:$CI_PIPELINE_IID &&
+       docker rmi svelte-client:$CI_PIPELINE_IID &&
+       docker rmi employees-microservice:$CI_PIPELINE_IID &&
+       docker rmi opportunities-microservice:$CI_PIPELINE_IID &&
+       docker rmi project-phases-microservice:$CI_PIPELINE_IID &&
+       cd ~ &&
+       docker-compose up -d --no-build"

@@ -1,0 +1,10 @@
+
+
+.rdrDateRangePickerWrapper{
+    width: 100%;
+    justify-content: space-around;
+}
+
+.rdrDefinedRangesWrapper{
+    display: none;
+}
