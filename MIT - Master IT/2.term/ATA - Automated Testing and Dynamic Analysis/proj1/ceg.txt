@@ -1,0 +1,53 @@
+Causes:
+1:  Požadováno přemístění materiálu bez prioritní vlastnosti
+2:  Méně jak 1 minuta od požadavku přemístění materiálu
+3:  Vozík má minimálně jeden volný slot
+4:  Vozík vyzvednutím materiálu nepřekročí svoji maximální nosnost
+5:  Vozík vyzvedne neprioritní materiál do jedné minuty
+6:  více nebo rovno jak 1 minuta od požadavku přemístění materiálu
+7:  Nastavení prioritní vlastnosti materiálu
+8:  Méně jak 1 minuta od nastavení prioritní vlastnosti materiálu
+9:  více nebo rovno jak 1 minuta od nastavení prioritní vlastnosti materiálu
+10: Vozík vyzvedne prioritního materiál
+
+Effects:
+71: Naložení neprioritního materiálu
+72: Nastavení prioritní vlastnosti
+73: Vozík naloží prioritní materiál
+74: Zalogování chyby
+75: Vozík nemůže nakládat další materiál, pouze vykládat naložený
+76: Vozík se přepne do režimu pouze vykládka
+
+Rules:
+71 = 5 && 3 && 4
+72 = 6
+73 = 10 && 3 && 4
+74 = 9
+75 = 10
+76 = 10
+
+Constraints:
+//casove zavislosti
+//nutne odstartovat aby mohl zacit bezet cas
+1 -> 2 
+2 -> 1
+
+6 -> 2
+8 -> 6
+6 -> 8
+9 -> 8
+
+7 -> 6 //pokud je vice jak jedna minuta od pozadavku, tak se nastavuje prioritni
+
+E: 5, 6 //nemuze vyzvednout neprioritni material, kdyz uz je vice jak 1 minuta
+E: 5, 10 //nemuze vyzvednout zaroven prioritni i neprioritni material
+
+
+10 -> 6 //aby vozik mohl vyzvednout prioritni material, tak je nutne aby cas byl minimalne jedna minuta od podani pozadavku
+6 -> 7 //pokud je vice jak 1 minuta od pozadavku, tak se nastavuje prioritni vlastnost
+5 -> 2 //Aby mohl byt naklad vyzvednut musi bezet casomira
+5 -> 3 //Aby mohl byt naklad vyzvednut vozik musi mit volny slot
+5 -> 4 //Aby mohl byt naklad vyzvednut vozik nesmi prekrocit limit
+
+10 -> 3 //Aby mohl byt naklad vyzvednut vozik musi mit volny slot
+10 -> 4 //Aby mohl byt naklad vyzvednut vozik nesmi prekrocit limit

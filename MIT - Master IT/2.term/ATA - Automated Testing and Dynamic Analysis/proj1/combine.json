@@ -1,0 +1,64 @@
+{
+  "name": "cartctl",
+  "t_strength": "2",
+  "dont_care_values": "no",
+  "values": "values",
+  "parameters": [
+      {
+          "identificator": "cart_slots",
+          "type": "enum",
+          "blocks": [
+              "1",
+              "2",
+              "3 to 4"
+          ]
+      },
+      {
+          "identificator": "cart_limit",
+          "type": "enum",
+          "blocks": [
+              "50",
+              "150",
+              "500"
+          ]
+      },
+      {
+          "identificator": "total_weight_materials",
+          "type": "boolean",
+          "blocks": [
+              false,
+              true
+          ]
+      },
+      {
+          "identificator": "total_priority",
+          "type": "integer",
+          "blocks": [
+              "total_priority = 0",
+              "total_priority > 0"
+          ]
+      },
+      {
+          "identificator": "number_of_relocations",
+          "type": "integer",
+          "blocks": [
+              "number_of_relocations = 0",
+              "number_of_relocations > 0"
+          ]
+      },
+      {
+          "identificator": "trace_length",
+          "type": "integer",
+          "blocks": [
+              "trace_length = 0",
+              "trace_length > 0"
+          ]
+      }
+  ],
+  "constraints": [
+      "cart_limit.1 -> !cart_slots.1",
+      "cart_limit.3 -> !cart_slots.3",
+      "total_priority.2 -> !number_of_relocations.1",
+      "total_weight_materials.1 -> !number_of_relocations.1"
+  ]
+}
